@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1826E91C256F35F700126EA4 /* WorkoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826E91B256F35F700126EA4 /* WorkoutController.swift */; };
+		1826E924256F374500126EA4 /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826E923256F374500126EA4 /* WorkoutDetailView.swift */; };
+		1826E92C256F398900126EA4 /* WorkoutButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826E92B256F398900126EA4 /* WorkoutButtonStyle.swift */; };
+		1826E936256F3D0700126EA4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1826E935256F3D0700126EA4 /* HealthKit.framework */; };
 		1890E789256D611500DD1082 /* RRWorkoutMK3 WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1890E788256D611500DD1082 /* RRWorkoutMK3 WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1890E78E256D611600DD1082 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1890E78D256D611600DD1082 /* Assets.xcassets */; };
 		1890E795256D611600DD1082 /* RRWorkoutMK3 WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1890E794256D611600DD1082 /* RRWorkoutMK3 WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -60,6 +64,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1826E91B256F35F700126EA4 /* WorkoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutController.swift; sourceTree = "<group>"; };
+		1826E923256F374500126EA4 /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
+		1826E92B256F398900126EA4 /* WorkoutButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutButtonStyle.swift; sourceTree = "<group>"; };
+		1826E933256F3D0700126EA4 /* RRWorkoutMK3 WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RRWorkoutMK3 WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		1826E935256F3D0700126EA4 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.1.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		1890E784256D611500DD1082 /* RRWorkoutMK3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RRWorkoutMK3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1890E788256D611500DD1082 /* RRWorkoutMK3 WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RRWorkoutMK3 WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1890E78D256D611600DD1082 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -78,18 +87,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1826E936256F3D0700126EA4 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1826E934256F3D0700126EA4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1826E935256F3D0700126EA4 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1890E77D256D611500DD1082 = {
 			isa = PBXGroup;
 			children = (
 				1890E78C256D611500DD1082 /* RRWorkoutMK3 WatchKit App */,
 				1890E798256D611600DD1082 /* RRWorkoutMK3 WatchKit Extension */,
 				1890E785256D611500DD1082 /* Products */,
+				1826E934256F3D0700126EA4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,8 +134,12 @@
 		1890E798256D611600DD1082 /* RRWorkoutMK3 WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				1890E799256D611600DD1082 /* ContentView.swift */,
+				1826E933256F3D0700126EA4 /* RRWorkoutMK3 WatchKit Extension.entitlements */,
 				1890E79B256D611600DD1082 /* RRWorkoutMK3App.swift */,
+				1890E799256D611600DD1082 /* ContentView.swift */,
+				1826E923256F374500126EA4 /* WorkoutDetailView.swift */,
+				1826E91B256F35F700126EA4 /* WorkoutController.swift */,
+				1826E92B256F398900126EA4 /* WorkoutButtonStyle.swift */,
 				1890E79D256D611600DD1082 /* ComplicationController.swift */,
 				1890E79F256D611600DD1082 /* Assets.xcassets */,
 				1890E7A4256D611600DD1082 /* Info.plist */,
@@ -260,6 +283,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1890E79A256D611600DD1082 /* ContentView.swift in Sources */,
+				1826E924256F374500126EA4 /* WorkoutDetailView.swift in Sources */,
+				1826E91C256F35F700126EA4 /* WorkoutController.swift in Sources */,
+				1826E92C256F398900126EA4 /* WorkoutButtonStyle.swift in Sources */,
 				1890E79C256D611600DD1082 /* RRWorkoutMK3App.swift in Sources */,
 				1890E79E256D611600DD1082 /* ComplicationController.swift in Sources */,
 			);
@@ -399,6 +425,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "RRWorkoutMK3 WatchKit Extension/RRWorkoutMK3 WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"RRWorkoutMK3 WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = 4Q332864D3;
@@ -423,6 +450,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "RRWorkoutMK3 WatchKit Extension/RRWorkoutMK3 WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"RRWorkoutMK3 WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = 4Q332864D3;

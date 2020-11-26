@@ -32,6 +32,16 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Allow Run Roster to gather workout data during use.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Allow Run Roster to save workout data to HealthKit.</string>
+	<key>UIBackgroundModes</key>
+	<array/>
+	<key>WKBackgroundModes</key>
+	<array>
+		<string>workout-processing</string>
+	</array>
 	<key>WKWatchOnly</key>
 	<true/>
 </dict>
