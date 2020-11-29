@@ -16,7 +16,6 @@ enum TabSelection {
 
 struct ContentView: View {
 
-
 	@State var tabSelection: TabSelection
 
 
@@ -38,7 +37,7 @@ struct ContentView: View {
 					.tag(TabSelection.home)
 
 					// Active Workout View
-					WorkoutDetailView()
+					WorkoutDetailView(tabSelection: $tabSelection)
 						.tabItem { Text("Active") }
 						.tag(TabSelection.activeRun)
 

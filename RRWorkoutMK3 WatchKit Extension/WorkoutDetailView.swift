@@ -5,19 +5,11 @@
 //  Created by Daniel O'Leary on 11/25/20.
 //
 
-import Foundation
 import SwiftUI
 
-
 struct WorkoutDetailView: View {
-	@EnvironmentObject var workoutController: WorkoutController
 
-	@State private var showWorkoutSummaryView = false
-
-	@State private var workoutIsActive 	= false
-	@State private var workoutPaused 	= false
-	@State private var workoutWillEnd 	= false
-
+	@Binding var tabSelection: TabSelection
 
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -33,12 +25,17 @@ struct WorkoutDetailView: View {
 			}.font(Font.title3.monospacedDigit())
 
 			WorkoutStartStopButtonsView
-				.tabItem { Text("somethienr") }
-
-
 		}
 
 	}
+
+	@EnvironmentObject var workoutController: WorkoutController
+
+	@State private var showWorkoutSummaryView = false
+
+	@State private var workoutIsActive 	= false
+	@State private var workoutPaused 	= false
+	@State private var workoutWillEnd 	= false
 
 	func secondsToHoursMinutesSeconds (seconds: Int) -> (Int, Int, Int) {
 		(seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
@@ -48,7 +45,6 @@ struct WorkoutDetailView: View {
 	func elapsedTimeString(elapsed: (h: Int, m: Int, s: Int)) -> String {
 		String(format: "%d:%02d:%02d", elapsed.h, elapsed.m, elapsed.s)
 	}
-
 
 	private var WorkoutStartStopButtonsView: some View {
 		Group {
@@ -84,13 +80,23 @@ struct WorkoutDetailView: View {
 				Button("Begin Workout") {
 					workoutIsActive.toggle()
 					workoutController.beginWorkout()
+					
 				}
 				.foregroundColor(.blue)
 			}
 		}
+		.alert(isPresented: $workoutWillEnd, content: {
+			Alert(title: Text("End workout?"), primaryButton: .cancel(), secondaryButton: .destructive(Text("End"), action: {
+				tabSelection = .home
+			}))
+		})
 	}
 
+
+
 }
+
+
 
 struct Metric: Codable {
 	var name: String
