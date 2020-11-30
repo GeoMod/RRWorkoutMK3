@@ -15,6 +15,7 @@ struct ContentView: View {
 		TabView(selection: $tabSelection,
 				content:  {
 					// Home View/Start Button
+					// MARK: Will be replaced in main app
 					Button(action: {
 						tabSelection = .activeRun
 					}, label: {
@@ -22,18 +23,25 @@ struct ContentView: View {
 							.shadow(radius: 5)
 							.font(.title)
 							.foregroundColor(.purple)
-					}).buttonStyle(WorkoutStartButtonStyle())
+					})
+					.buttonStyle(WorkoutStartButtonStyle())
 					.frame(width: WKInterfaceDevice.current().screenBounds.width, height: WKInterfaceDevice.current().screenBounds.height)
 
 					.tabItem { Text("Home") }
 					.tag(TabSelection.home)
 
-					// Active Workout View
 					WorkoutDetailView(tabSelection: $tabSelection)
 						.tabItem { Text("Active") }
 						.tag(TabSelection.activeRun)
 
+					SummaryView()
+						.tabItem { Text("Summary") }
+						.tag(TabSelection.runSummary)
+					// Placing animation here will not animate tab transitions.
 				})
+			// Placing animation modifier around all content will
+			// animate transitions and button actions.
+			.animation(.easeInOut(duration: 2.0))
 
 	}
 }

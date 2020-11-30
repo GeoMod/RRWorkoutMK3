@@ -14,8 +14,6 @@ struct WorkoutDetailView: View {
 	@Binding var tabSelection: TabSelection
 
 	@State private var workoutIsActive = false
-	@State private var workoutPaused = false
-	@State private var workoutWillEnd = false
 
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -30,14 +28,8 @@ struct WorkoutDetailView: View {
 				Text("\(workoutController.activeCalories, specifier: "%.0f") Cal")
 			}.font(Font.title3.monospacedDigit())
 
-			WorkoutStartStopButtonsView
+			StartStopButtonView
 		}
-		.alert(isPresented: $workoutWillEnd, content: {
-			Alert(title: Text("Workout Complete?"), primaryButton: .cancel(), secondaryButton: .destructive(Text("End Workout"), action: {
-				tabSelection = .home
-				workoutController.endWorkout()
-			}))
-		}).environmentObject(workoutController)
 
 	}
 
@@ -51,46 +43,71 @@ struct WorkoutDetailView: View {
 		String(format: "%d:%02d:%02d", elapsed.h, elapsed.m, elapsed.s)
 	}
 
-	private var WorkoutStartStopButtonsView: some View {
+	private var StartStopButtonView: some View {
 		Group {
 			if workoutIsActive {
-				HStack {
-					// Pause Button
-					Button(action: {
-						// pause or resume workout
-						if workoutPaused {
-							workoutController.resumeWorkout()
-							workoutPaused.toggle()
-							return
-						} else {
-							workoutController.pauseWorkout()
-							workoutPaused.toggle()
-						}
-					}) {
-						Image(systemName: workoutPaused  ? "arrow.clockwise.circle.fill" : "pause.fill")
-							.foregroundColor(workoutPaused ? .green : .blue)
-					}
-					// Start/Stop Button
-					Button(action: {
-						workoutWillEnd.toggle()
-						workoutController.pauseWorkout()
-//						workoutController.endWorkout()
-					}) {
-						Image(systemName: "stop.fill")
-							.foregroundColor(.red)
-					}
-				}
-				.font(.system(size: 25))
+				// pause workout
+				// move to deatail screen where user can go back to active workout or stop the workout.
+				// stay on same page after stopping workout.
+				Button(action: {
+					workoutIsActive.toggle()
+					workoutController.pauseWorkout()
+					tabSelection = .runSummary
+				}, label: {
+					Image(systemName: "pause.fill")
+						.font(.title2)
 
+				})
 			} else {
-				Button("Begin Workout") {
+				Button(action: {
 					workoutIsActive.toggle()
 					workoutController.beginWorkout()
-				}
-				.foregroundColor(.blue)
+				}, label: {
+					Text("Begin Workout")
+				})
 			}
-		}
+		}.foregroundColor(.blue)
 	}
+
+//	private var WorkoutStartStopButtonsView: some View {
+//		Group {
+//			if workoutIsActive {
+//				HStack {
+//					// Pause Button
+//					Button(action: {
+//						// pause or resume workout
+//						if workoutPaused {
+//							workoutController.resumeWorkout()
+//							workoutPaused.toggle()
+//							return
+//						} else {
+//							workoutController.pauseWorkout()
+//							workoutPaused.toggle()
+//						}
+//					}) {
+//						Image(systemName: workoutPaused  ? "arrow.clockwise.circle.fill" : "pause.fill")
+//							.foregroundColor(workoutPaused ? .green : .blue)
+//					}
+//					// Start/Stop Button
+//					Button(action: {
+//						workoutWillEnd.toggle()
+//						workoutController.pauseWorkout()
+//					}) {
+//						Image(systemName: "stop.fill")
+//							.foregroundColor(.red)
+//					}
+//				}
+//				.font(.system(size: 25))
+//
+//			} else {
+//				Button("Begin Workout") {
+//					workoutIsActive.toggle()
+//					workoutController.beginWorkout()
+//				}
+//				.foregroundColor(.blue)
+//			}
+//		}
+//	}
 
 }
 
@@ -115,9 +132,28 @@ extension Metric: CustomStringConvertible {
 }
 
 
-//struct WorkoutDetailView_Previews: PreviewProvider {
-//	static let environment = WorkoutController()
-//	static var previews: some View {
-//		WorkoutDetailView().environmentObject(environment)
-//	}
-//}
+struct WorkoutDetailView_Previews: PreviewProvider {
+	static let environment = WorkoutController()
+	static var workoutIsActive = true
+
+	static var previews: some View {
+		VStack {
+			Button(action: {
+				//
+			}, label: {
+				Text("Begin Workout")
+			})
+
+			Button(action: {
+				//
+			}, label: {
+				Image(systemName: "pause.fill")
+					.font(.title2)
+			})
+
+
+		}
+
+	}
+
+}
