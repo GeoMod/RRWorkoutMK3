@@ -9,7 +9,13 @@ import SwiftUI
 
 struct WorkoutDetailView: View {
 
+	@EnvironmentObject var workoutController: WorkoutController
+
 	@Binding var tabSelection: TabSelection
+
+	@State private var workoutIsActive = false
+	@State private var workoutPaused = false
+	@State private var workoutWillEnd = false
 
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -29,20 +35,13 @@ struct WorkoutDetailView: View {
 
 	}
 
-	@EnvironmentObject var workoutController: WorkoutController
 
-	@State private var showWorkoutSummaryView = false
-
-	@State private var workoutIsActive 	= false
-	@State private var workoutPaused 	= false
-	@State private var workoutWillEnd 	= false
-
-	func secondsToHoursMinutesSeconds (seconds: Int) -> (Int, Int, Int) {
+	private func secondsToHoursMinutesSeconds (seconds: Int) -> (Int, Int, Int) {
 		(seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
 	}
 
 	// Convert the seconds, minutes, hours into a string.
-	func elapsedTimeString(elapsed: (h: Int, m: Int, s: Int)) -> String {
+	private func elapsedTimeString(elapsed: (h: Int, m: Int, s: Int)) -> String {
 		String(format: "%d:%02d:%02d", elapsed.h, elapsed.m, elapsed.s)
 	}
 
@@ -80,19 +79,16 @@ struct WorkoutDetailView: View {
 				Button("Begin Workout") {
 					workoutIsActive.toggle()
 					workoutController.beginWorkout()
-					
 				}
 				.foregroundColor(.blue)
 			}
 		}
 		.alert(isPresented: $workoutWillEnd, content: {
-			Alert(title: Text("End workout?"), primaryButton: .cancel(), secondaryButton: .destructive(Text("End"), action: {
+			Alert(title: Text("Workout Complete?"), primaryButton: .cancel(), secondaryButton: .destructive(Text("End Workout"), action: {
 				tabSelection = .home
 			}))
 		})
 	}
-
-
 
 }
 

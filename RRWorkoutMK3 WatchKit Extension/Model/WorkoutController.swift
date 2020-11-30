@@ -9,7 +9,7 @@ import Combine
 import HealthKit
 
 
-class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
+final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
 
 	/// - Tag: Publishers
 	// MARK: Switch to main properties when finished.

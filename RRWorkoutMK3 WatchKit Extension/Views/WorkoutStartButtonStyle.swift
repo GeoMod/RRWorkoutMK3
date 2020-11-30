@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WorkoutButtonStyle: ButtonStyle {
+struct WorkoutStartButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		configuration.label
 			.padding(10)

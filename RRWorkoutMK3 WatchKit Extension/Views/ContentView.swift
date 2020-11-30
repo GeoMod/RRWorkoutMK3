@@ -18,7 +18,6 @@ struct ContentView: View {
 
 	@State var tabSelection: TabSelection
 
-
 	var body: some View {
 		TabView(selection: $tabSelection,
 				content:  {
@@ -30,7 +29,7 @@ struct ContentView: View {
 							.shadow(radius: 5)
 							.font(.title)
 							.foregroundColor(.purple)
-					}).buttonStyle(WorkoutButtonStyle())
+					}).buttonStyle(WorkoutStartButtonStyle())
 					.frame(width: WKInterfaceDevice.current().screenBounds.width, height: WKInterfaceDevice.current().screenBounds.height)
 
 					.tabItem { Text("Home") }

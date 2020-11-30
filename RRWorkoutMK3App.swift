@@ -10,8 +10,7 @@ import SwiftUI
 @main
 struct RRWorkoutMK3App: App {
 
-	var workoutController = WorkoutController()
-
+	let workoutController = WorkoutController()
 
     var body: some Scene {
         WindowGroup {
