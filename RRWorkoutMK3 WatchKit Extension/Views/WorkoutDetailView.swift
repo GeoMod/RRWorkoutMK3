@@ -32,6 +32,12 @@ struct WorkoutDetailView: View {
 
 			WorkoutStartStopButtonsView
 		}
+		.alert(isPresented: $workoutWillEnd, content: {
+			Alert(title: Text("Workout Complete?"), primaryButton: .cancel(), secondaryButton: .destructive(Text("End Workout"), action: {
+				tabSelection = .home
+				workoutController.endWorkout()
+			}))
+		}).environmentObject(workoutController)
 
 	}
 
@@ -67,7 +73,8 @@ struct WorkoutDetailView: View {
 					// Start/Stop Button
 					Button(action: {
 						workoutWillEnd.toggle()
-						workoutController.endWorkout()
+						workoutController.pauseWorkout()
+//						workoutController.endWorkout()
 					}) {
 						Image(systemName: "stop.fill")
 							.foregroundColor(.red)
@@ -83,11 +90,6 @@ struct WorkoutDetailView: View {
 				.foregroundColor(.blue)
 			}
 		}
-		.alert(isPresented: $workoutWillEnd, content: {
-			Alert(title: Text("Workout Complete?"), primaryButton: .cancel(), secondaryButton: .destructive(Text("End Workout"), action: {
-				tabSelection = .home
-			}))
-		})
 	}
 
 }
