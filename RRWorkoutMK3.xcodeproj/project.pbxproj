@@ -19,6 +19,8 @@
 		1890E79E256D611600DD1082 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1890E79D256D611600DD1082 /* ComplicationController.swift */; };
 		1890E7A0256D611600DD1082 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1890E79F256D611600DD1082 /* Assets.xcassets */; };
 		1890E7A3256D611600DD1082 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1890E7A2256D611600DD1082 /* Preview Assets.xcassets */; };
+		18DD1F2525756DDA00567EC1 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD1F2425756DDA00567EC1 /* SummaryView.swift */; };
+		18DD1F2D2575738C00567EC1 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD1F2C2575738C00567EC1 /* Globals.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +82,8 @@
 		1890E79F256D611600DD1082 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1890E7A2256D611600DD1082 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1890E7A4256D611600DD1082 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18DD1F2425756DDA00567EC1 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		18DD1F2C2575738C00567EC1 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				1826E91B256F35F700126EA4 /* WorkoutController.swift */,
+				18DD1F2C2575738C00567EC1 /* Globals.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,6 +173,7 @@
 				1890E799256D611600DD1082 /* ContentView.swift */,
 				1826E923256F374500126EA4 /* WorkoutDetailView.swift */,
 				1826E92B256F398900126EA4 /* WorkoutStartButtonStyle.swift */,
+				18DD1F2425756DDA00567EC1 /* SummaryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -299,8 +305,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1890E79A256D611600DD1082 /* ContentView.swift in Sources */,
+				18DD1F2525756DDA00567EC1 /* SummaryView.swift in Sources */,
 				1826E924256F374500126EA4 /* WorkoutDetailView.swift in Sources */,
 				1826E91C256F35F700126EA4 /* WorkoutController.swift in Sources */,
+				18DD1F2D2575738C00567EC1 /* Globals.swift in Sources */,
 				1826E92C256F398900126EA4 /* WorkoutStartButtonStyle.swift in Sources */,
 				1890E79C256D611600DD1082 /* RRWorkoutMK3App.swift in Sources */,
 				1890E79E256D611600DD1082 /* ComplicationController.swift in Sources */,

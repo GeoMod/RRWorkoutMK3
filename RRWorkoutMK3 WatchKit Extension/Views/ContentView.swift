@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-enum TabSelection {
-	case home
-	case activeRun
-	case pausedRun
-	case runSummary
-}
-
 struct ContentView: View {
 
 	@State var tabSelection: TabSelection
