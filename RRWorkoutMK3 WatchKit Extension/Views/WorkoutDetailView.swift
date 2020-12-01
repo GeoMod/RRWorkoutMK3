@@ -31,7 +31,7 @@ struct WorkoutDetailView: View {
 			StartStopButtonView
 		}
 		// To prevent the TabView animation from affecting everything inside the otehr views.
-		.animation(.none)
+//		.animation(.none)
 	}
 
 
@@ -59,16 +59,18 @@ struct WorkoutDetailView: View {
 						.font(.title2)
 
 				})
+				.transition(.scale(scale: 0.25))
 			} else {
 				Button(action: {
 					workoutIsActive.toggle()
 					workoutController.beginWorkout()
 				}, label: {
 					Text("Begin Workout")
+						.foregroundColor(.blue)
 				})
 			}
 		}
-		.foregroundColor(.blue)
+
 
 	}
 
