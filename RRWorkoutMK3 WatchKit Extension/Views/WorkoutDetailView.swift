@@ -30,7 +30,8 @@ struct WorkoutDetailView: View {
 
 			StartStopButtonView
 		}
-
+		// To prevent the TabView animation from affecting everything inside the otehr views.
+		.animation(.none)
 	}
 
 
@@ -66,7 +67,9 @@ struct WorkoutDetailView: View {
 					Text("Begin Workout")
 				})
 			}
-		}.foregroundColor(.blue)
+		}
+		.foregroundColor(.blue)
+
 	}
 
 //	private var WorkoutStartStopButtonsView: some View {

@@ -41,8 +41,7 @@ struct ContentView: View {
 				})
 			// Placing animation modifier around all content will
 			// animate transitions and button actions.
-			.animation(.easeInOut(duration: 2.0))
-
+			.animation(.default)
 	}
 }
 
