@@ -172,8 +172,8 @@
 			children = (
 				1890E799256D611600DD1082 /* ContentView.swift */,
 				1826E923256F374500126EA4 /* WorkoutDetailView.swift */,
-				1826E92B256F398900126EA4 /* WorkoutStartButtonStyle.swift */,
 				18DD1F2425756DDA00567EC1 /* SummaryView.swift */,
+				1826E92B256F398900126EA4 /* WorkoutStartButtonStyle.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

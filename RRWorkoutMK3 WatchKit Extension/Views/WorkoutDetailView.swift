@@ -14,6 +14,7 @@ struct WorkoutDetailView: View {
 	@Binding var tabSelection: TabSelection
 
 	@State private var workoutIsActive = false
+	@State private var workoutIsPaused = false
 
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -29,6 +30,7 @@ struct WorkoutDetailView: View {
 			}.font(Font.title3.monospacedDigit())
 
 			StartStopButtonView
+				.navigationTitle("Run Roster")
 		}
 		// To prevent the TabView animation from affecting everything inside the otehr views.
 //		.animation(.none)
@@ -51,26 +53,25 @@ struct WorkoutDetailView: View {
 				// move to deatail screen where user can go back to active workout or stop the workout.
 				// stay on same page after stopping workout.
 				Button(action: {
-					workoutIsActive.toggle()
+					workoutIsActive = false
 					workoutController.pauseWorkout()
 					tabSelection = .runSummary
 				}, label: {
 					Image(systemName: "pause.fill")
 						.font(.title2)
-
 				})
-				.transition(.scale(scale: 0.25))
 			} else {
 				Button(action: {
-					workoutIsActive.toggle()
-					workoutController.beginWorkout()
+					workoutIsActive = true
+					workoutIsPaused = true
+					workoutController.setupWorkoutSession()
 				}, label: {
-					Text("Begin Workout")
+					Text(workoutIsPaused ? "Resume Workout" : "Begin Workout")
 						.foregroundColor(.blue)
 				})
 			}
 		}
-
+		.animation(.none)
 
 	}
 
@@ -155,10 +156,7 @@ struct WorkoutDetailView_Previews: PreviewProvider {
 				Image(systemName: "pause.fill")
 					.font(.title2)
 			})
-
-
 		}
-
 	}
 
 }

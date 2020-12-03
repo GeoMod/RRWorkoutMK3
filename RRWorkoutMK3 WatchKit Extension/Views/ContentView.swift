@@ -34,14 +34,14 @@ struct ContentView: View {
 						.tabItem { Text("Active") }
 						.tag(TabSelection.activeRun)
 
-					SummaryView()
+					SummaryView(tabSelection: $tabSelection)
 						.tabItem { Text("Summary") }
 						.tag(TabSelection.runSummary)
 					// Placing animation here will not animate tab transitions.
 				})
 			// Placing animation modifier around all content will
 			// animate transitions and button actions.
-			.animation(.easeIn(duration: 0.15))
+			.animation(.default)
 	}
 }
 
