@@ -11,10 +11,7 @@ struct WorkoutDetailView: View {
 
 	@EnvironmentObject var workoutController: WorkoutController
 
-	@Binding var tabSelection: TabSelection
-
-	@State private var workoutIsActive = false
-	@State private var workoutIsPaused = false
+	@Binding var workoutIsActive: Bool
 
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -29,11 +26,9 @@ struct WorkoutDetailView: View {
 				Text("\(workoutController.activeCalories, specifier: "%.0f") Cal")
 			}.font(Font.title3.monospacedDigit())
 
-			StartStopButtonView
-				.navigationTitle("Run Roster")
+			StartButtonView
 		}
-		// To prevent the TabView animation from affecting everything inside the otehr views.
-//		.animation(.none)
+		.navigationTitle("Run Roster")
 	}
 
 
@@ -46,74 +41,42 @@ struct WorkoutDetailView: View {
 		String(format: "%d:%02d:%02d", elapsed.h, elapsed.m, elapsed.s)
 	}
 
-	private var StartStopButtonView: some View {
-		Group {
-			if workoutIsActive {
-				// pause workout
-				// move to deatail screen where user can go back to active workout or stop the workout.
-				// stay on same page after stopping workout.
-				Button(action: {
-					workoutIsActive = false
-					workoutController.pauseWorkout()
-					tabSelection = .runSummary
-				}, label: {
-					Image(systemName: "pause.fill")
-						.font(.title2)
-				})
-			} else {
-				Button(action: {
-					workoutIsActive = true
-					workoutIsPaused = true
-					workoutController.setupWorkoutSession()
-				}, label: {
-					Text(workoutIsPaused ? "Resume Workout" : "Begin Workout")
-						.foregroundColor(.blue)
-				})
-			}
+	private var StartButtonView: some View {
+
+		Button("Begin Workout") {
+			workoutIsActive = true
+			workoutController.setupWorkoutSession()
 		}
+		.offset(x: workoutIsActive ? 500 : 0)
+		.animation(.easeIn(duration: 0.25))
+		.disabled(workoutIsActive ? true : false)
+//		Group {
+//			if workoutIsActive {
+//				// pause workout
+//				// move to deatail screen where user can go back to active workout or stop the workout.
+//				// stay on same page after stopping workout.
+//				Button(action: {
+//					workoutIsActive = false
+//					workoutController.pauseWorkout()
+//					tabSelection = .runSummary
+//				}, label: {
+//					Image(systemName: "pause.fill")
+//						.font(.title2)
+//				})
+//			} else {
+//				Button(action: {
+//					workoutIsActive = true
+//					workoutIsPaused = true
+//					workoutController.setupWorkoutSession()
+//				}, label: {
+//					Text(workoutIsPaused ? "Resume Workout" : "Begin Workout")
+//						.foregroundColor(.blue)
+//				})
+//			}
+//		}
 		.animation(.none)
 
 	}
-
-//	private var WorkoutStartStopButtonsView: some View {
-//		Group {
-//			if workoutIsActive {
-//				HStack {
-//					// Pause Button
-//					Button(action: {
-//						// pause or resume workout
-//						if workoutPaused {
-//							workoutController.resumeWorkout()
-//							workoutPaused.toggle()
-//							return
-//						} else {
-//							workoutController.pauseWorkout()
-//							workoutPaused.toggle()
-//						}
-//					}) {
-//						Image(systemName: workoutPaused  ? "arrow.clockwise.circle.fill" : "pause.fill")
-//							.foregroundColor(workoutPaused ? .green : .blue)
-//					}
-//					// Start/Stop Button
-//					Button(action: {
-//						workoutWillEnd.toggle()
-//						workoutController.pauseWorkout()
-//					}) {
-//						Image(systemName: "stop.fill")
-//							.foregroundColor(.red)
-//					}
-//				}
-//				.font(.system(size: 25))
-//
-//			} else {
-//				Button("Begin Workout") {
-//					workoutIsActive.toggle()
-//					workoutController.beginWorkout()
-//				}
-//				.foregroundColor(.blue)
-//			}
-//		}
-//	}
 
 }
 

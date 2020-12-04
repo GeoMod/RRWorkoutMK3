@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
 
 	@State var tabSelection: TabSelection
+	@State private var workoutIsActive = false
 
 	var body: some View {
 		TabView(selection: $tabSelection,
@@ -30,11 +31,11 @@ struct ContentView: View {
 					.tabItem { Text("Home") }
 					.tag(TabSelection.home)
 
-					WorkoutDetailView(tabSelection: $tabSelection)
+					WorkoutDetailView(workoutIsActive: $workoutIsActive)
 						.tabItem { Text("Active") }
 						.tag(TabSelection.activeRun)
 
-					SummaryView(tabSelection: $tabSelection)
+					SummaryView(tabSelection: $tabSelection, workoutIsActive: $workoutIsActive)
 						.tabItem { Text("Summary") }
 						.tag(TabSelection.runSummary)
 					// Placing animation here will not animate tab transitions.
