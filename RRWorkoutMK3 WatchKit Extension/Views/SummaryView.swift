@@ -43,12 +43,15 @@ struct SummaryView: View {
 					Image(systemName: "stop.circle")
 						.foregroundColor(.red)
 				})
+				.offset(x: workoutPaused ? 0 : -500)
+
 				Button("Done") {
 					tabSelection = .home
-				}.foregroundColor(.yellow)
+				}
+				.foregroundColor(.yellow)
+				.offset(x: workoutIsActive ? -500 : 0)
 			}
 			.font(.title2)
-			.offset(x: workoutPaused ? 0 : -500)
 			.animation(.easeOut)
 		}
 		.navigationTitle("Run Roster")
