@@ -55,7 +55,6 @@ struct SummaryView: View {
 			.animation(.easeOut)
 		}
 		.navigationTitle("Run Roster")
-//		.animation(.none)
 	}
 }
 

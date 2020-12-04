@@ -50,32 +50,7 @@ struct WorkoutDetailView: View {
 		.offset(x: workoutIsActive ? 500 : 0)
 		.animation(.easeIn(duration: 0.25))
 		.disabled(workoutIsActive ? true : false)
-//		Group {
-//			if workoutIsActive {
-//				// pause workout
-//				// move to deatail screen where user can go back to active workout or stop the workout.
-//				// stay on same page after stopping workout.
-//				Button(action: {
-//					workoutIsActive = false
-//					workoutController.pauseWorkout()
-//					tabSelection = .runSummary
-//				}, label: {
-//					Image(systemName: "pause.fill")
-//						.font(.title2)
-//				})
-//			} else {
-//				Button(action: {
-//					workoutIsActive = true
-//					workoutIsPaused = true
-//					workoutController.setupWorkoutSession()
-//				}, label: {
-//					Text(workoutIsPaused ? "Resume Workout" : "Begin Workout")
-//						.foregroundColor(.blue)
-//				})
-//			}
-//		}
 		.animation(.none)
-
 	}
 
 }
