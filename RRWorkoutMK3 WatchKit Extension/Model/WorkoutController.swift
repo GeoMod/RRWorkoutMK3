@@ -12,7 +12,6 @@ import HealthKit
 final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
 
 	/// - Tag: Publishers
-	// MARK: Switch to main properties when finished.
 	@Published var activeCalories: 	Double 	= 0
 	@Published var distance: 		Double	= 0
 	@Published var heartrate: 		Double	= 0
@@ -75,6 +74,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		configuration.activityType = .running
 		configuration.locationType = .outdoor
 
+
 		do {
 			session = try HKWorkoutSession(healthStore: healthStore, configuration: configuration)
 			builder = session.associatedWorkoutBuilder()
@@ -118,9 +118,17 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	}
 
 	func endWorkout() {
+
+		#warning("Working with this method")
+		averagePace(given: elapsedSeconds, distance: distance)
+
 		session.end()
 		// Stop the timer
 		cancellable?.cancel()
+	}
+
+	private func averagePace(given time: Int, distance: Double) {
+		print("Pace is \(Double(time) / distance)")
 	}
 
 	func resetWorkout() {
@@ -137,7 +145,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	func updateLabels(withStatistics statistics: HKStatistics?) {
 		guard let statistics = statistics else { return }
 
-		// Dispatch to main, because we are updating the interface.
+		// Update user interface.
 		DispatchQueue.main.async {
 			switch statistics.quantityType {
 			case HKQuantityType.quantityType(forIdentifier: .heartRate):
@@ -160,6 +168,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 			}
 		}
 	}
+
 
 	// Track elapsed time.
 //	func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
@@ -197,7 +206,6 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		// From the docs:
 		// You may receive the notification long after the state changed.
 		// Check the date parameter to determine when the state change actually occurred.
-
 		if toState == .ended {
 			builder.endCollection(withEnd: Date()) { (success, error) in
 				self.builder.finishWorkout { (workout, error) in
@@ -205,23 +213,6 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 				}
 			}
 		}
-
-		//		switch (toState, fromState) {
-		//			case (.prepared, .notStarted):
-		//				// call session.prepare() to move to this state
-		//				print("Workout not started")
-		//			case (.running, .prepared):
-		//				print("Workout prepared")
-		//			case (.running, .paused):
-		//				print("Workout resumed")
-		//			case (.ended, .paused):
-		//				print("Workout ended")
-		//				endWorkout()
-		//			case (.paused, .running):
-		//				print("Workout paused")
-		//			default:
-		//				return
-		//		}
 	}
 
 	// MARK: - HKLiveWorkoutBuilderDelegate
@@ -243,6 +234,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	func workoutSession(_ workoutSession: HKWorkoutSession, didGenerate event: HKWorkoutEvent) {
 		// MARK: Elevation infomation can be found here:
 		// https://developer.apple.com/documentation/healthkit/hkmetadatakeyelevationdescended
+
 	}
 
 	func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {

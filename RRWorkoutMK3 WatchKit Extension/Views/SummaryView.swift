@@ -18,7 +18,7 @@ struct SummaryView: View {
 	var body: some View {
 		VStack {
 
-			Text(workoutPaused ? "Paused" : "Pause Workout?")
+			Text(workoutIsActive ? "Cal: \(workoutController.activeCalories)" : "Pause Workout?")
 
 			Button(action: {
 				if workoutPaused {
@@ -35,21 +35,21 @@ struct SummaryView: View {
 			})
 
 			Group {
-				Button(action: {
-					workoutIsActive = false
-					workoutController.endWorkout()
-					workoutController.resetWorkout()
-				}, label: {
-					Image(systemName: "stop.circle")
-						.foregroundColor(.red)
-				})
-				.offset(x: workoutPaused ? 0 : -500)
-
-				Button("Done") {
-					tabSelection = .home
+				if workoutIsActive {
+					Button(action: {
+						workoutIsActive = false
+						workoutController.endWorkout()
+					}, label: {
+						Image(systemName: "stop.circle")
+							.foregroundColor(.red)
+					})
+					.offset(x: workoutPaused ? 0 : -500)
+				} else {
+					Button("Done") {
+						tabSelection = .home
+					}
+					.foregroundColor(.yellow)
 				}
-				.foregroundColor(.yellow)
-				.offset(x: workoutIsActive ? -500 : 0)
 			}
 			.font(.title2)
 			.animation(.easeOut)

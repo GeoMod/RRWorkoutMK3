@@ -47,7 +47,7 @@ struct WorkoutDetailView: View {
 			workoutIsActive = true
 			workoutController.setupWorkoutSession()
 		}
-		.offset(x: workoutIsActive ? 500 : 0)
+		.offset(x: workoutIsActive ? -500 : 0)
 		.animation(.easeIn(duration: 0.25))
 		.disabled(workoutIsActive ? true : false)
 		.animation(.none)
