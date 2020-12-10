@@ -25,6 +25,7 @@ struct WorkoutDetailView: View {
 				Text("\(workoutController.heartrate, specifier: "%.0f" ) BPM")
 				Text("\(workoutController.activeCalories, specifier: "%.0f") Cal")
 			}.font(Font.title3.monospacedDigit())
+			Text("pace: \(workoutController.currentRunningPace)")
 
 			StartButtonView
 		}

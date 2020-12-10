@@ -36,6 +36,8 @@
 	<string>Allow Run Roster to gather workout data during use.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Allow Run Roster to save workout data to HealthKit.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Allow Run Roster to access device motion to measure running pace.</string>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>WKBackgroundModes</key>

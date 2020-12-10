@@ -6,16 +6,27 @@
 //
 
 import Combine
+import CoreMotion
 import HealthKit
 
 
 final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
 
-	/// - Tag: Publishers
+	/// - Tag: Workout Publishers
 	@Published var activeCalories: 	Double 	= 0
 	@Published var distance: 		Double	= 0
 	@Published var heartrate: 		Double	= 0
 	@Published var elapsedSeconds: 	Int 	= 0
+
+	/// - Tag: CoreMotion
+	@Published var currentRunningPace: NSNumber = 0
+	@Published var averageRunningPace: NSNumber = 0
+
+	var pedometer: CMPedometer
+
+	override init() {
+		pedometer = CMPedometer()
+	}
 
 	/// - Tag: TimerSetup
 	// The cancellable holds the timer publisher.
@@ -119,17 +130,16 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 
 	func endWorkout() {
 
-		#warning("Working with this method")
-		averagePace(given: elapsedSeconds, distance: distance)
+//		averagePace(given: elapsedSeconds, distance: distance)
 
 		session.end()
 		// Stop the timer
 		cancellable?.cancel()
 	}
 
-	private func averagePace(given time: Int, distance: Double) {
-		print("Pace is \(Double(time) / distance)")
-	}
+//	private func averagePace(given time: Int, distance: Double) {
+//		print("Pace is \(Double(time) / distance)")
+//	}
 
 	func resetWorkout() {
 		// Reset the published values.
@@ -169,37 +179,32 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		}
 	}
 
+	// MARK: CoreMotion
+	func startMotionUpdates() {
+		print("I got called to start motion")
+		getActivePace()
+		if CMPedometer.authorizationStatus() == .authorized && CMPedometer.isStepCountingAvailable() {
+			print("You be activated")
+			getActivePace()
+		}
+	}
 
-	// Track elapsed time.
-//	func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
-//		// Retreive the workout event.
-//		guard let workoutEventType = workoutBuilder.workoutEvents.last?.type else { return }
-//		// Update the timer based on the event received.
-//		switch workoutEventType {
-//			case .pause:
-//				setDurationTimerDate(.paused)
-//			case .resume:
-//				setDurationTimerDate(.running)
-//			default:
-//				return
-//		}
-//	}
+	#warning("Working in this area but pedometer is not working.")
 
-//	func setDurationTimerDate(_ sessionState: HKWorkoutSessionState){
-//		let elapsedTime = builder.elapsedTime
-//
-//		let timerDate = Date(timeInterval: -builder.elapsedTime, since: Date())
-//
-//		dateComponentsFormatter.unitsStyle = .full
-//		dateComponentsFormatter.allowedUnits = [.hour, .minute, .second]
-//
-//		if let formattedTime = dateComponentsFormatter.string(from: timerDate, to: Date()) {
-//			DispatchQueue.main.async {
-//				self.time = formattedTime
-//			}
-//		}
-//
-//	}
+	func getActivePace() {
+		pedometer.startUpdates(from: Date()) { (data, error) in
+			// Update UI
+			DispatchQueue.main.async {
+				print("I am running!")
+				self.currentRunningPace = data?.currentPace ?? 0
+			}
+		}
+	}
+
+
+	func stopMotionUpdates() {
+		pedometer.stopUpdates()
+	}
 
 	// MARK: - HKWorkoutSessionDelegate
 	func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
