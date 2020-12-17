@@ -99,6 +99,9 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: configuration)
 
 		session.startActivity(with: Date())
+
+		startMotionUpdates()
+
 		builder.beginCollection(withStart: Date()) { (success, error) in
 			// the workout has started
 		}
@@ -181,29 +184,41 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 
 	// MARK: CoreMotion
 	func startMotionUpdates() {
-		print("I got called to start motion")
-		getActivePace()
-		if CMPedometer.authorizationStatus() == .authorized && CMPedometer.isStepCountingAvailable() {
-			print("You be activated")
+		if CMPedometer.isStepCountingAvailable() {
 			getActivePace()
+		} else {
+			print("No Pedometer available")
 		}
 	}
 
-	#warning("Working in this area but pedometer is not working.")
-
 	func getActivePace() {
 		pedometer.startUpdates(from: Date()) { (data, error) in
+			guard let data = data else {
+				print("Error in pedometer \(error!.localizedDescription)")
+				return }
 			// Update UI
 			DispatchQueue.main.async {
-				print("I am running!")
-				self.currentRunningPace = data?.currentPace ?? 0
+				// From the docs, current pace is measured in seconds per meter
+				// Must apply conversion
+				self.currentRunningPace = data.currentPace!
 			}
 		}
 	}
 
 
 	func stopMotionUpdates() {
+		getAverageRunningPace()
 		pedometer.stopUpdates()
+	}
+
+	func getAverageRunningPace() {
+		pedometer.startUpdates(from: Date()) { (data, error) in
+			guard let data = data else {
+				print("Error in pedometer \(error!.localizedDescription)")
+				return }
+
+			self.averageRunningPace = data.averageActivePace!
+		}
 	}
 
 	// MARK: - HKWorkoutSessionDelegate

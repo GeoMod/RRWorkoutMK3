@@ -14,32 +14,26 @@ struct WorkoutDetailView: View {
 	@Binding var workoutIsActive: Bool
 
 	var body: some View {
-		VStack(alignment: .leading) {
-			Text(elapsedTimeString(elapsed: secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds)))
-				.foregroundColor(.yellow)
-				.font(Font.title2.monospacedDigit())
+		ScrollView {
+			VStack(alignment: .leading, spacing: 1) {
+				Text(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds)))
+					.foregroundColor(.yellow)
+					.font(Font.title2.monospacedDigit())
 
-			Text("\(workoutController.distance, specifier: "%.2f") mi")
-				.font(Font.title.monospacedDigit())
-			HStack(spacing: 20) {
+				Text("\(workoutController.distance, specifier: "%.2f") mi")
+					.font(Font.title.monospacedDigit())
+
 				Text("\(workoutController.heartrate, specifier: "%.0f" ) BPM")
+					.font(Font.title3.monospacedDigit())
 				Text("\(workoutController.activeCalories, specifier: "%.0f") Cal")
-			}.font(Font.title3.monospacedDigit())
-			Text("pace: \(workoutController.currentRunningPace)")
+					.font(Font.title3.monospacedDigit())
 
-			StartButtonView
+				Text("\(workoutController.currentRunningPace) Pace")
+
+				StartButtonView
+			}
 		}
 		.navigationTitle("Run Roster")
-	}
-
-
-	private func secondsToHoursMinutesSeconds (seconds: Int) -> (Int, Int, Int) {
-		(seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
-	}
-
-	// Convert the seconds, minutes, hours into a string.
-	private func elapsedTimeString(elapsed: (h: Int, m: Int, s: Int)) -> String {
-		String(format: "%d:%02d:%02d", elapsed.h, elapsed.m, elapsed.s)
 	}
 
 	private var StartButtonView: some View {
@@ -53,7 +47,6 @@ struct WorkoutDetailView: View {
 		.disabled(workoutIsActive ? true : false)
 		.animation(.none)
 	}
-
 }
 
 

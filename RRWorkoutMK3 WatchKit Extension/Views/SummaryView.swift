@@ -1,65 +1,47 @@
 //
-//  SwiftUIView.swift
+//  SummaryView.swift
 //  RRWorkoutMK3 WatchKit Extension
 //
-//  Created by Daniel O'Leary on 11/30/20.
+//  Created by Daniel O'Leary on 12/11/20.
 //
 
 import SwiftUI
 
 struct SummaryView: View {
-	@EnvironmentObject var workoutController: WorkoutController
+	@Environment(\.presentationMode) var presentationMode
 
-	@Binding var tabSelection: TabSelection
-	@Binding var workoutIsActive: Bool
+	let totalDistance: String
+	let totalTime: Text
+	let averagePace: String
 
-	@State private var workoutPaused = false
-
-	var body: some View {
-		VStack {
-
-			Text(workoutIsActive ? "Cal: \(workoutController.activeCalories)" : "Pause Workout?")
-
-			Button(action: {
-				if workoutPaused {
-					workoutController.resumeWorkout()
-					workoutPaused.toggle()
-				} else {
-					workoutController.pauseWorkout()
-					workoutPaused.toggle()
-				}
-			}, label: {
-				Image(systemName: workoutPaused ? "arrow.clockwise.circle" : "pause.fill")
-					.font(.title2)
-					.foregroundColor(workoutPaused ? .green : .blue)
-			})
-
-			Group {
-				if workoutIsActive {
-					Button(action: {
-						workoutIsActive = false
-						workoutController.endWorkout()
-					}, label: {
-						Image(systemName: "stop.circle")
-							.foregroundColor(.red)
-					})
-					.offset(x: workoutPaused ? 0 : -500)
-				} else {
-					Button("Done") {
-						tabSelection = .home
-					}
-					.foregroundColor(.yellow)
-				}
-			}
-			.font(.title2)
-			.animation(.easeOut)
+    var body: some View {
+		ScrollView {
+			VStack {
+				Text("Workout Complete!")
+				VStack(alignment: .leading, spacing: 1) {
+					Text("Time: \(totalTime.foregroundColor(.yellow))")
+						.padding()
+					Divider()
+					Text("Dist: \(totalDistance)")
+						.padding()
+					Divider()
+					Text("Avg: \(averagePace)")
+						.padding()
+				}.font(.body)
+				Spacer()
+				Button(action: {
+					presentationMode.wrappedValue.dismiss()
+				}, label: {
+					Text("Done")
+				})
+				.frame(width: 150, height: 45)
+			}.font(.headline)
 		}
-		.navigationTitle("Run Roster")
-	}
+    }
 }
 
-//struct SummaryView_Previews: PreviewProvider {
-//    static var previews: some View {
-//		SummaryView()
-//    }
-//}
+struct SummaryView_Previews: PreviewProvider {
+    static var previews: some View {
+		SummaryView(totalDistance: "3.2mi", totalTime: Text("32min"), averagePace: "09:28/mi")
+    }
+}

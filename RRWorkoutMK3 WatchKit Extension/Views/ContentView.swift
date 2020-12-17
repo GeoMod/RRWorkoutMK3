@@ -35,7 +35,7 @@ struct ContentView: View {
 						.tabItem { Text("Active") }
 						.tag(TabSelection.activeRun)
 
-					SummaryView(tabSelection: $tabSelection, workoutIsActive: $workoutIsActive)
+					PauseStopResumeView(tabSelection: $tabSelection, workoutIsActive: $workoutIsActive)
 						.tabItem { Text("Summary") }
 						.tag(TabSelection.runSummary)
 					// Placing animation here will not animate tab transitions.
