@@ -16,18 +16,20 @@ struct PauseStopResumeView: View {
 	@State private var isShowingSheet 	= false
 	@State private var workoutPaused 	= false
 
-//	let timeConversion = ConvertTimeInSecondsToString()
 
 	var body: some View {
 		VStack {
 			Button(action: {
 				if workoutPaused {
+					// Workout is paused, lets resume.
 					workoutController.resumeWorkout()
-					workoutPaused.toggle()
+					workoutPaused = false
+					// Switch back to WorkoutDetailView
 					tabSelection = .activeRun
 				} else {
+					// Workout is running, pause it.
 					workoutController.pauseWorkout()
-					workoutPaused.toggle()
+					workoutPaused = true
 				}
 			}, label: {
 				Image(systemName: workoutPaused ? "arrow.clockwise.circle" : "pause.fill")
@@ -36,10 +38,11 @@ struct PauseStopResumeView: View {
 			})
 
 			Group {
+				// Workout is paused,
+				// Here is the option to resume or End
 				if workoutIsActive {
 					Button(action: {
 						workoutIsActive = false
-//						workoutController.endWorkout()
 						isShowingSheet = true
 					}, label: {
 						Image(systemName: "stop.circle")
@@ -47,12 +50,6 @@ struct PauseStopResumeView: View {
 					})
 					.offset(x: workoutPaused ? 0 : -500)
 				}
-//				else {
-//					Button("Done") {
-//						tabSelection = .home
-//					}
-//					.foregroundColor(.yellow)
-//				}
 			}
 			.font(.title2)
 			.animation(.easeOut)
@@ -62,13 +59,13 @@ struct PauseStopResumeView: View {
 		.sheet(isPresented: $isShowingSheet, onDismiss: {
 			workoutController.endWorkout()
 			workoutIsActive = false
+			workoutPaused = false
 			tabSelection = .home
 		}, content: {
 			SummaryView(totalDistance: "\(workoutController.distance)",
 						totalTime: Text(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds))),
 						averagePace: "\(workoutController.averageRunningPace)")
 		})
-
 
 	}
 }
