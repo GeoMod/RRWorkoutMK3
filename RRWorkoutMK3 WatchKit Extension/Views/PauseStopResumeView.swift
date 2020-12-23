@@ -64,7 +64,7 @@ struct PauseStopResumeView: View {
 		}, content: {
 			SummaryView(totalDistance: "\(workoutController.distance)",
 						totalTime: Text(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds))),
-						averagePace: "\(workoutController.averageRunningPace)")
+						averagePace: "PlaceHolder") // \(workoutController.averageRunningPace)
 		})
 
 	}

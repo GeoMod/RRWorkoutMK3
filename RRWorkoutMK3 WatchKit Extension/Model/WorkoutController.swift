@@ -19,14 +19,14 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	@Published var elapsedSeconds: 	Int 	= 0
 
 	/// - Tag: CoreMotion
-	@Published var currentRunningPace: NSNumber = 0
-	@Published var averageRunningPace: NSNumber = 0
+//	@Published var currentRunningPace: NSNumber = 0
+//	@Published var averageRunningPace: NSNumber = 0
 
-	var pedometer: CMPedometer
-
-	override init() {
-		pedometer = CMPedometer()
-	}
+//	var pedometer: CMPedometer
+//
+//	override init() {
+//		pedometer = CMPedometer()
+//	}
 
 	/// - Tag: TimerSetup
 	// The cancellable holds the timer publisher.
@@ -85,7 +85,6 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		configuration.activityType = .running
 		configuration.locationType = .outdoor
 
-
 		do {
 			session = try HKWorkoutSession(healthStore: healthStore, configuration: configuration)
 			builder = session.associatedWorkoutBuilder()
@@ -100,7 +99,9 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 
 		session.startActivity(with: Date())
 
-		startMotionUpdates()
+		// Start the Pedometer here
+		// Without this the pace will not activate.
+//		startMotionUpdates()
 
 		builder.beginCollection(withStart: Date()) { (success, error) in
 			// the workout has started
@@ -133,16 +134,11 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 
 	func endWorkout() {
 
-//		averagePace(given: elapsedSeconds, distance: distance)
-
 		session.end()
 		// Stop the timer
 		cancellable?.cancel()
 	}
 
-//	private func averagePace(given time: Int, distance: Double) {
-//		print("Pace is \(Double(time) / distance)")
-//	}
 
 	func resetWorkout() {
 		// Reset the published values.
@@ -182,44 +178,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		}
 	}
 
-	// MARK: CoreMotion
-	func startMotionUpdates() {
-		if CMPedometer.isStepCountingAvailable() {
-			getActivePace()
-		} else {
-			print("No Pedometer available")
-		}
-	}
 
-	func getActivePace() {
-		pedometer.startUpdates(from: Date()) { (data, error) in
-			guard let data = data else {
-				print("Error in pedometer \(error!.localizedDescription)")
-				return }
-			// Update UI
-			DispatchQueue.main.async {
-				// From the docs, current pace is measured in seconds per meter
-				// Must apply conversion
-				self.currentRunningPace = data.currentPace!
-			}
-		}
-	}
-
-
-	func stopMotionUpdates() {
-		getAverageRunningPace()
-		pedometer.stopUpdates()
-	}
-
-	func getAverageRunningPace() {
-		pedometer.startUpdates(from: Date()) { (data, error) in
-			guard let data = data else {
-				print("Error in pedometer \(error!.localizedDescription)")
-				return }
-
-			self.averageRunningPace = data.averageActivePace!
-		}
-	}
 
 	// MARK: - HKWorkoutSessionDelegate
 	func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
@@ -262,20 +221,8 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	}
 
 
-//	func workoutTimeSummary(from duration: TimeInterval) {
-//		dateComponentsFormatter.allowedUnits = [.hour, .minute, .second]
-//		dateComponentsFormatter.unitsStyle = .abbreviated
-//
-//		if let outputString = dateComponentsFormatter.string(from: duration) {
-//			DispatchQueue.main.async {
-//				self.NEWelapsedSeconds = outputString
-//			}
-//		} else {
-//			DispatchQueue.main.async {
-//				self.NEWelapsedSeconds = "hh:mm:ss"
-//			}
-//		}
-//	}
+
+
 
 
 }

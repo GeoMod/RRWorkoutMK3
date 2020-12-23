@@ -22,13 +22,13 @@ struct WorkoutDetailView: View {
 
 				Text("\(workoutController.distance, specifier: "%.2f") mi")
 					.font(Font.title.monospacedDigit())
-
-				Text("\(workoutController.heartrate, specifier: "%.0f" ) BPM")
-					.font(Font.title3.monospacedDigit())
-				Text("\(workoutController.activeCalories, specifier: "%.0f") Cal")
-					.font(Font.title3.monospacedDigit())
-
-				Text("\(workoutController.currentRunningPace) Pace")
+				HStack {
+					Text("\(workoutController.heartrate, specifier: "%.0f" ) BPM")
+						.font(Font.title3.monospacedDigit()).padding(.trailing, 20)
+					Text("\(workoutController.activeCalories, specifier: "%.0f") Cal")
+						.font(Font.title3.monospacedDigit())
+				}
+//				Text("\(workoutController.currentRunningPace) Pace")
 
 				StartButtonView
 			}
