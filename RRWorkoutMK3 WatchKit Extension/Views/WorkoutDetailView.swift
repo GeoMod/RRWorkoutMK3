@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct WorkoutDetailView: View {
-
 	@EnvironmentObject var workoutController: WorkoutController
 
 	@Binding var workoutIsActive: Bool
@@ -28,8 +27,11 @@ struct WorkoutDetailView: View {
 					Text("\(workoutController.activeCalories, specifier: "%.0f") Cal")
 						.font(Font.title3.monospacedDigit())
 				}
-//				Text("\(workoutController.currentRunningPace) Pace")
-
+				Text("\(workoutController.paceManager.currentRunningPace) /mi")
+					.fontWeight(.bold)
+					.foregroundColor(.yellow)
+					.font(Font.title3.monospacedDigit())
+				
 				StartButtonView
 			}
 		}

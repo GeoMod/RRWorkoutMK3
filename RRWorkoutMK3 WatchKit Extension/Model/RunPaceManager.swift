@@ -10,7 +10,13 @@ import CoreMotion
 
 final class RunPaceManager: NSObject, ObservableObject {
 
+	enum UnitOfSpeedMeasurement {
+		case kilometersPerHour
+		case milesPerHour
+	}
+
 	@Published var currentRunningPace = "0:00:00"
+	@Published var unitOfMeasurement: UnitOfSpeedMeasurement = .milesPerHour
 
 	var pedometer: CMPedometer
 
@@ -18,54 +24,44 @@ final class RunPaceManager: NSObject, ObservableObject {
 		pedometer = CMPedometer()
 	}
 
-	enum UnitOfSpeedMeasurement {
-		case kilometersPerHour
-		case milesPerHour
-	}
 
 	func startMotionUpdates() {
-		if CMPedometer.isStepCountingAvailable() {
-			getActivePace()
+		if CMPedometer.isPaceAvailable() {
+			getOngoingAveragePace()
 		} else {
-			print("No Pedometer available")
+			print("No Pedometer to start updating")
 		}
 	}
 
-	func getActivePace() {
+	func stopMotionUpdates() {
+		if CMPedometer.isPaceAvailable() {
+			pedometer.stopUpdates()
+			print("STOP Called")
+		} else {
+			print("No Pedometer to stop.")
+		}
+		// WIP
+		// send final average pace to summary screen
+	}
+
+	func getOngoingAveragePace() {
 		pedometer.startUpdates(from: Date()) { (data, error) in
 			// Get the current pace, if there isn't one set it as Zero
-			let rawPace = data?.currentPace ?? 0
-
+			let rawPace = data?.averageActivePace ?? 0
 			let currentPace = Double(truncating: rawPace)
 
 			// Update UI
-			self.currentRunningPace = self.convert(pace: currentPace, to: .milesPerHour)
+			DispatchQueue.main.async {
+				self.currentRunningPace = self.convert(pace: currentPace, to: self.unitOfMeasurement)
+			}
 		}
 	}
 
 
-	func stopMotionUpdates() {
-		getAverageRunningPace()
-		pedometer.stopUpdates()
-	}
-
-	func getAverageRunningPace() {
-		pedometer.startUpdates(from: Date()) { (data, error) in
-			// WIP
-
-//			guard let data = data else {
-//				print("Error in pedometer \(error!.localizedDescription)")
-//				return }
-
-//			self.averageRunningPace = data.averageActivePace!
-		}
-	}
 
 	func convert(pace: Double, to speed: UnitOfSpeedMeasurement) -> String  {
-		// Measurement<UnitSpeed>
-		// metersPerSecond is given from CoreMotion. This is an example value for testing.
-		let metersPerSecond = Measurement(value: Double(truncating: NSNumber(value: pace)),
-										  unit: UnitSpeed.metersPerSecond)
+		// metersPerSecond is given from CoreMotion.
+		let metersPerSecond = Measurement(value: Double(truncating: NSNumber(value: pace)), unit: UnitSpeed.metersPerSecond)
 		var unitSpeed: Measurement<UnitSpeed>
 
 		var mintues = 0

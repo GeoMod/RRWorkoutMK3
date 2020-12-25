@@ -18,15 +18,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	@Published var heartrate: 		Double	= 0
 	@Published var elapsedSeconds: 	Int 	= 0
 
-	/// - Tag: CoreMotion
-//	@Published var currentRunningPace: NSNumber = 0
-//	@Published var averageRunningPace: NSNumber = 0
-
-//	var pedometer: CMPedometer
-//
-//	override init() {
-//		pedometer = CMPedometer()
-//	}
+	let paceManager = RunPaceManager()
 
 	/// - Tag: TimerSetup
 	// The cancellable holds the timer publisher.
@@ -99,9 +91,8 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 
 		session.startActivity(with: Date())
 
-		// Start the Pedometer here
-		// Without this the pace will not activate.
-//		startMotionUpdates()
+		// Start the Pedometer
+		paceManager.startMotionUpdates()
 
 		builder.beginCollection(withStart: Date()) { (success, error) in
 			// the workout has started
@@ -137,6 +128,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		session.end()
 		// Stop the timer
 		cancellable?.cancel()
+		paceManager.stopMotionUpdates()
 	}
 
 
@@ -219,8 +211,6 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
 		// no errors handled
 	}
-
-
 
 
 

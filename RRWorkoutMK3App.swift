@@ -16,7 +16,8 @@ struct RRWorkoutMK3App: App {
         WindowGroup {
             NavigationView {
 				ContentView(tabSelection: TabSelection.home)
-			}.environmentObject(workoutController)
+			}
+			.environmentObject(workoutController)
         }
     }
 }
