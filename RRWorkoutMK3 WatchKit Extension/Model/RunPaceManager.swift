@@ -36,7 +36,6 @@ final class RunPaceManager: NSObject, ObservableObject {
 	func stopMotionUpdates() {
 		if CMPedometer.isPaceAvailable() {
 			pedometer.stopUpdates()
-			print("STOP Called")
 		} else {
 			print("No Pedometer to stop.")
 		}

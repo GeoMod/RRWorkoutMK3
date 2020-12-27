@@ -57,10 +57,7 @@ struct PauseStopResumeView: View {
 		.navigationTitle("Run Roster")
 
 		.sheet(isPresented: $isShowingSheet, onDismiss: {
-			workoutController.endWorkout()
-			workoutIsActive = false
-			workoutPaused = false
-			tabSelection = .home
+			endWorkoutResetToHome()
 		}, content: {
 			SummaryView(totalDistance: "\(workoutController.distance)",
 						totalTime: Text(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds))),
@@ -68,6 +65,15 @@ struct PauseStopResumeView: View {
 		})
 
 	}
+
+
+	private func endWorkoutResetToHome() {
+		workoutController.endWorkout()
+		workoutIsActive = false
+		workoutPaused = false
+		tabSelection = .home
+	}
+
 }
 
 //struct SummaryView_Previews: PreviewProvider {
