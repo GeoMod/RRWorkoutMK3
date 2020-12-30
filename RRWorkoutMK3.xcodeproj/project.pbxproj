@@ -84,8 +84,10 @@
 		1890E79F256D611600DD1082 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1890E7A2256D611600DD1082 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1890E7A4256D611600DD1082 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18DBADFB259D08CF0049AB63 /* WatchFrameworkTesting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchFrameworkTesting.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18DD1F2425756DDA00567EC1 /* PauseStopResumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseStopResumeView.swift; sourceTree = "<group>"; };
 		18DD1F2C2575738C00567EC1 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		18DE3B2F259C98510016EA03 /* TestRRWorkout.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestRRWorkout.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18E15C02257FD1D100BA8B6F /* RunPaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunPaceManager.swift; sourceTree = "<group>"; };
 		18FDEAEB2583F5CA00A7612B /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,6 +98,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				1826E936256F3D0700126EA4 /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18DBADF8259D08CF0049AB63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18DE3B2C259C98510016EA03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +143,8 @@
 				1890E784256D611500DD1082 /* RRWorkoutMK3.app */,
 				1890E788256D611500DD1082 /* RRWorkoutMK3 WatchKit App.app */,
 				1890E794256D611600DD1082 /* RRWorkoutMK3 WatchKit Extension.appex */,
+				18DE3B2F259C98510016EA03 /* TestRRWorkout.xctest */,
+				18DBADFB259D08CF0049AB63 /* WatchFrameworkTesting.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -238,13 +256,47 @@
 			productReference = 1890E794256D611600DD1082 /* RRWorkoutMK3 WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
 		};
+		18DBADFA259D08CF0049AB63 /* WatchFrameworkTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18DBAE00259D08CF0049AB63 /* Build configuration list for PBXNativeTarget "WatchFrameworkTesting" */;
+			buildPhases = (
+				18DBADF7259D08CF0049AB63 /* Sources */,
+				18DBADF8259D08CF0049AB63 /* Frameworks */,
+				18DBADF9259D08CF0049AB63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WatchFrameworkTesting;
+			productName = WatchFrameworkTesting;
+			productReference = 18DBADFB259D08CF0049AB63 /* WatchFrameworkTesting.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		18DE3B2E259C98510016EA03 /* TestRRWorkout */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18DE3B36259C98510016EA03 /* Build configuration list for PBXNativeTarget "TestRRWorkout" */;
+			buildPhases = (
+				18DE3B2B259C98510016EA03 /* Sources */,
+				18DE3B2C259C98510016EA03 /* Frameworks */,
+				18DE3B2D259C98510016EA03 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestRRWorkout;
+			productName = TestRRWorkout;
+			productReference = 18DE3B2F259C98510016EA03 /* TestRRWorkout.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		1890E77E256D611500DD1082 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
 					1890E783256D611500DD1082 = {
@@ -255,6 +307,12 @@
 					};
 					1890E793256D611600DD1082 = {
 						CreatedOnToolsVersion = 12.2;
+					};
+					18DBADFA259D08CF0049AB63 = {
+						CreatedOnToolsVersion = 12.3;
+					};
+					18DE3B2E259C98510016EA03 = {
+						CreatedOnToolsVersion = 12.3;
 					};
 				};
 			};
@@ -274,6 +332,8 @@
 				1890E783256D611500DD1082 /* RRWorkoutMK3 */,
 				1890E787256D611500DD1082 /* RRWorkoutMK3 WatchKit App */,
 				1890E793256D611600DD1082 /* RRWorkoutMK3 WatchKit Extension */,
+				18DE3B2E259C98510016EA03 /* TestRRWorkout */,
+				18DBADFA259D08CF0049AB63 /* WatchFrameworkTesting */,
 			);
 		};
 /* End PBXProject section */
@@ -303,6 +363,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		18DBADF9259D08CF0049AB63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18DE3B2D259C98510016EA03 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -320,6 +394,20 @@
 				18FDEAEC2583F5CA00A7612B /* SummaryView.swift in Sources */,
 				1890E79C256D611600DD1082 /* RRWorkoutMK3App.swift in Sources */,
 				1890E79E256D611600DD1082 /* ComplicationController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18DBADF7259D08CF0049AB63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18DE3B2B259C98510016EA03 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,6 +659,82 @@
 			};
 			name = Release;
 		};
+		18DBAE01259D08CF0049AB63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4Q332864D3;
+				INFOPLIST_FILE = WatchFrameworkTesting/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ImpulseCoupledDevelopment.WatchFrameworkTesting;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		18DBAE02259D08CF0049AB63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4Q332864D3;
+				INFOPLIST_FILE = WatchFrameworkTesting/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ImpulseCoupledDevelopment.WatchFrameworkTesting;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		18DE3B34259C98510016EA03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4Q332864D3;
+				INFOPLIST_FILE = TestRRWorkout/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ImpulseCoupledDevelopment.TestRRWorkout;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		18DE3B35259C98510016EA03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4Q332864D3;
+				INFOPLIST_FILE = TestRRWorkout/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ImpulseCoupledDevelopment.TestRRWorkout;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -606,6 +770,24 @@
 			buildConfigurations = (
 				1890E7B0256D611600DD1082 /* Debug */,
 				1890E7B1256D611600DD1082 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18DBAE00259D08CF0049AB63 /* Build configuration list for PBXNativeTarget "WatchFrameworkTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18DBAE01259D08CF0049AB63 /* Debug */,
+				18DBAE02259D08CF0049AB63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18DE3B36259C98510016EA03 /* Build configuration list for PBXNativeTarget "TestRRWorkout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18DE3B34259C98510016EA03 /* Debug */,
+				18DE3B35259C98510016EA03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
