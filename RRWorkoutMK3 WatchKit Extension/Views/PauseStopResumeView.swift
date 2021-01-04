@@ -59,10 +59,9 @@ struct PauseStopResumeView: View {
 		.sheet(isPresented: $isShowingSheet, onDismiss: {
 			endWorkoutResetToHome()
 		}, content: {
-			SummaryView(totalDistance: "\(workoutController.distance)",
+			SummaryView(totalDistance: Text("\(workoutController.distance)"),
 						totalTime: Text(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds))),
-						averagePace: "PlaceHolder")
-			// TODO: Fix placeholder
+						averagePace: Text(workoutController.paceManager.currentRunningPace))
 		})
 
 	}

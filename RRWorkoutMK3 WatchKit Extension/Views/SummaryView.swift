@@ -10,24 +10,28 @@ import SwiftUI
 struct SummaryView: View {
 	@Environment(\.presentationMode) var presentationMode
 
-	let totalDistance: String
+	let totalDistance: Text
 	let totalTime: Text
-	let averagePace: String
+	let averagePace: Text
 
     var body: some View {
 		ScrollView {
 			VStack {
-				Text("Workout Complete!")
+				Text("Run Roster")
 				VStack(alignment: .leading, spacing: 1) {
 					Text("Time: \(totalTime.foregroundColor(.yellow))")
+						.fontWeight(.bold)
 						.padding()
 					Divider()
-					Text("Dist: \(totalDistance)")
+					Text("Distance: \(totalDistance.foregroundColor(.green))")
+						.fontWeight(.bold)
 						.padding()
 					Divider()
-					Text("Avg: \(averagePace)")
+					Text("Avg Pace: \(averagePace.foregroundColor(.yellow))")
+						.fontWeight(.bold)
 						.padding()
-				}.font(.body)
+				}
+				.font(.body)
 				Spacer()
 				Button(action: {
 					presentationMode.wrappedValue.dismiss()
@@ -42,6 +46,6 @@ struct SummaryView: View {
 
 struct SummaryView_Previews: PreviewProvider {
     static var previews: some View {
-		SummaryView(totalDistance: "3.2mi", totalTime: Text("32min"), averagePace: "09:28/mi")
+		SummaryView(totalDistance: Text("3.2mi"), totalTime: Text("32min"), averagePace: Text("09:28 /mi"))
     }
 }

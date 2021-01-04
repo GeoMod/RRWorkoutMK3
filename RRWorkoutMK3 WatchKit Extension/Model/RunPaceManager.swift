@@ -18,8 +18,6 @@ class RunPaceManager: NSObject, ObservableObject {
 	@Published var currentRunningPace = "00:00"
 	@Published var unitOfMeasurement: UnitOfSpeedMeasurement = .milesPerHour
 
-	@Published var rawPace: Double = 0
-
 	let pedometer = CMPedometer()
 	let now = Date()
 
@@ -48,15 +46,16 @@ class RunPaceManager: NSObject, ObservableObject {
 			// Update UI
 			DispatchQueue.main.async {
 				self.currentRunningPace = self.convert(pace: pace, to: self.unitOfMeasurement)
-				self.rawPace = pace.doubleValue
 			}
 		}
 	}
 
 	func convert(pace: NSNumber, to speed: UnitOfSpeedMeasurement) -> String  {
-		// metersPerSecond is given from CoreMotion as an NSNumber. But...
-		// the original pace value is given as "Seconds per Meter", not Meters per Second.
-		// 1 / value converts to Meters per Second
+		/*
+		metersPerSecond is given from CoreMotion as an NSNumber. But...
+		the original pace value is given as "Seconds per Meter", not Meters per Second.
+		1 / value converts to Meters per Second
+		*/
 		var conversion: Double {
 			1 / pace.doubleValue
 		}

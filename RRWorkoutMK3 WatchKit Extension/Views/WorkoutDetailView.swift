@@ -22,10 +22,9 @@ struct WorkoutDetailView: View {
 				Text("\(workoutController.distance, specifier: "%.2f") mi")
 					.font(Font.title.monospacedDigit())
 				Label("\(workoutController.getPaceData()) /mi", systemImage: "sun.dust.fill")
+					.labelStyle(TitleOnlyLabelStyle())
 					.font(Font.title3.monospacedDigit())
 					.foregroundColor(.yellow)
-				Label("\(workoutController.paceManager.rawPace)", systemImage: "lasso.sparkles")
-					.foregroundColor(.red)
 
 				HStack {
 					Text("\(workoutController.heartrate, specifier: "%.0f" ) BPM")
