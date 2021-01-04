@@ -21,9 +21,12 @@ struct WorkoutDetailView: View {
 
 				Text("\(workoutController.distance, specifier: "%.2f") mi")
 					.font(Font.title.monospacedDigit())
-				Label("\(workoutController.paceManager.currentRunningPace) /mi", systemImage: "timer")
+				Label("\(workoutController.getPaceData()) /mi", systemImage: "sun.dust.fill")
 					.font(Font.title3.monospacedDigit())
 					.foregroundColor(.yellow)
+				Label("\(workoutController.paceManager.rawPace)", systemImage: "lasso.sparkles")
+					.foregroundColor(.red)
+
 				HStack {
 					Text("\(workoutController.heartrate, specifier: "%.0f" ) BPM")
 						.font(Font.title3.monospacedDigit()).padding(.trailing, 20)
@@ -35,7 +38,6 @@ struct WorkoutDetailView: View {
 //					.foregroundColor(.yellow)
 //					.font(Font.title3.monospacedDigit())
 
-				
 				StartButtonView
 			}
 		}

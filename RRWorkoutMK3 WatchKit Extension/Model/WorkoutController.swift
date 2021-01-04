@@ -47,6 +47,10 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		return self.accumulatedTime + runningTime
 	}
 
+	func getPaceData() -> String {
+		return paceManager.currentRunningPace
+	}
+
 
 	func setupWorkoutSession() {
 		let typesToShare: Set = [HKQuantityType.workoutType()]
@@ -124,7 +128,6 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	}
 
 	func endWorkout() {
-
 		session.end()
 		// Stop the timer
 		cancellable?.cancel()
