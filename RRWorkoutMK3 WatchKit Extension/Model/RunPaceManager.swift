@@ -20,8 +20,6 @@ class RunPaceManager: NSObject, ObservableObject {
 
 	@Published var rawPace: Double = 0
 
-	@Published var updateFreq = 0
-
 	let pedometer = CMPedometer()
 	let now = Date()
 
@@ -47,9 +45,6 @@ class RunPaceManager: NSObject, ObservableObject {
 			// Get the current pace, if there isn't one set it as Zero
 			guard let pace = data?.averageActivePace else { return }
 
-			self.updateFreq += 1
-			print("I updated!! \(self.updateFreq) times") // never printed from watch App
-
 			// Update UI
 			DispatchQueue.main.async {
 				self.currentRunningPace = self.convert(pace: pace, to: self.unitOfMeasurement)
@@ -59,8 +54,14 @@ class RunPaceManager: NSObject, ObservableObject {
 	}
 
 	func convert(pace: NSNumber, to speed: UnitOfSpeedMeasurement) -> String  {
-		// metersPerSecond is given from CoreMotion as an NSNumber.
-		let metersPerSecond = Measurement(value: pace.doubleValue, unit: UnitSpeed.metersPerSecond)
+		// metersPerSecond is given from CoreMotion as an NSNumber. But...
+		// the original pace value is given as "Seconds per Meter", not Meters per Second.
+		// 1 / value converts to Meters per Second
+		var conversion: Double {
+			1 / pace.doubleValue
+		}
+
+		let metersPerSecond = Measurement(value: conversion, unit: UnitSpeed.metersPerSecond)
 
 		var paceValue: Double = 0
 
