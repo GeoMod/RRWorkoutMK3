@@ -14,34 +14,32 @@ struct SummaryView: View {
 	let totalTime: Text
 	let averagePace: Text
 
-    var body: some View {
+	var body: some View {
 		ScrollView {
 			VStack {
-				Text("Run Roster")
-				VStack(alignment: .leading, spacing: 1) {
-					Text("Time: \(totalTime.foregroundColor(.yellow))")
-						.fontWeight(.bold)
-						.padding()
+				Text("Run Summary")
+					.font(.title3)
+					.fontWeight(.bold)
+					.padding(.bottom, 3)
+				VStack(alignment: .leading, spacing: 2) {
+					Label("\(totalTime.foregroundColor(.offWhite))", systemImage: "clock.fill")
 					Divider()
-					Text("Distance: \(totalDistance.foregroundColor(.green))")
-						.fontWeight(.bold)
-						.padding()
+					Label("\(totalDistance.foregroundColor(.offWhite))", systemImage: "figure.walk.circle.fill")
 					Divider()
-					Text("Avg Pace: \(averagePace.foregroundColor(.yellow))")
-						.fontWeight(.bold)
-						.padding()
+					Label("\(averagePace.foregroundColor(.offWhite))", systemImage: "speedometer")
 				}
-				.font(.body)
-				Spacer()
+				.foregroundColor(.yellow)
+				.font(.system(size: 30))
+
 				Button(action: {
 					presentationMode.wrappedValue.dismiss()
 				}, label: {
 					Text("Done")
+						.font(.system(size: 20))
 				})
-				.frame(width: 150, height: 45)
-			}.font(.headline)
+			}
 		}
-    }
+	}
 }
 
 struct SummaryView_Previews: PreviewProvider {
