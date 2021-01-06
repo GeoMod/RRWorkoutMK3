@@ -15,30 +15,44 @@ struct WorkoutDetailView: View {
 	var body: some View {
 		ScrollView {
 			VStack(alignment: .leading, spacing: 1) {
-				Text(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds)))
-					.foregroundColor(.yellow)
-					.font(Font.title2.monospacedDigit())
-
-				Text("\(workoutController.distance, specifier: "%.2f") mi")
-					.font(Font.title.monospacedDigit())
-				Label("\(workoutController.getPaceData()) /mi", systemImage: "sun.dust.fill")
-					.labelStyle(TitleOnlyLabelStyle())
-					.font(Font.title3.monospacedDigit())
-					.foregroundColor(.yellow)
-
-				HStack {
-					Text("\(workoutController.heartrate, specifier: "%.0f" ) BPM")
-						.font(Font.title3.monospacedDigit()).padding(.trailing, 20)
-					Text("\(workoutController.activeCalories, specifier: "%.0f") Cal")
-						.font(Font.title3.monospacedDigit())
+				Label {
+					Text("\(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds)))")
+				} icon: {
+					Image(systemName: "clock.fill")
+						.foregroundColor(.yellow)
 				}
-//				Text("\(workoutController.paceManager.currentRunningPace) /mi")
-//					.fontWeight(.bold)
-//					.foregroundColor(.yellow)
-//					.font(Font.title3.monospacedDigit())
+
+				Label {
+					Text("\(workoutController.distance, specifier: "%.2f") mi")
+				} icon: {
+					Image(systemName: "figure.walk.circle.fill")
+						.foregroundColor(.yellow)
+				}
+
+				Label {
+					Text("\(workoutController.averagePace) /mi")
+				} icon: {
+					Image(systemName: "speedometer")
+						.foregroundColor(.yellow)
+				}
+
+
+				Label { Text("\(workoutController.heartrate, specifier: "%.0f") BPM") }
+					icon: { Image(systemName: "heart.circle.fill")
+						.foregroundColor(.yellow)
+					}
+
+				Label {
+					Text("\(workoutController.activeCalories, specifier: "%.0f")")
+				} icon: {
+					Image(systemName: "bolt.horizontal.circle")
+						.foregroundColor(.yellow)
+				}
 
 				StartButtonView
 			}
+			.foregroundColor(.white)
+			.font(Font.title2.monospacedDigit())
 		}
 		.navigationTitle("Run Roster")
 	}
@@ -49,6 +63,7 @@ struct WorkoutDetailView: View {
 			workoutIsActive = true
 			workoutController.setupWorkoutSession()
 		}
+		.font(.body)
 		.offset(x: workoutIsActive ? -500 : 0)
 		.animation(.easeIn(duration: 0.25))
 		.disabled(workoutIsActive ? true : false)
@@ -78,24 +93,47 @@ extension Metric: CustomStringConvertible {
 
 
 struct WorkoutDetailView_Previews: PreviewProvider {
-	static let environment = WorkoutController()
+	static let workoutController = WorkoutController()
 	static var workoutIsActive = true
 
 	static var previews: some View {
-		VStack {
-			Button(action: {
-				//
-			}, label: {
-				Text("Begin Workout")
-			})
+		ScrollView {
+			VStack(alignment: .leading, spacing: 1) {
+				Label {
+					Text("0:23:02")
+				} icon: {
+					Image(systemName: "clock.fill")
+						.foregroundColor(.yellow)
+				}
+				Label {
+					Text("\(workoutController.distance, specifier: "%.2f") mi")
+				} icon: {
+					Image(systemName: "figure.walk.circle.fill")
+						.foregroundColor(.yellow)
+				}
 
-			Button(action: {
-				//
-			}, label: {
-				Image(systemName: "pause.fill")
-					.font(.title2)
-			})
+				Label {
+					Text("\(workoutController.averagePace) /mi")
+				} icon: {
+					Image(systemName: "speedometer")
+						.foregroundColor(.yellow)
+				}
+				Label { Text("\(workoutController.heartrate, specifier: "%.0f") BPM") }
+					icon: { Image(systemName: "heart.circle.fill")
+						.foregroundColor(.yellow)
+					}
+				Label {
+					Text("\(workoutController.activeCalories, specifier: "%.0f")")
+				} icon: {
+					Image(systemName: "bolt.horizontal.circle")
+						.foregroundColor(.yellow)
+				}
+			}
+			.foregroundColor(.white)
+			.font(Font.title2.monospacedDigit())
 		}
+		.navigationTitle("Run Roster")
 	}
+
 
 }

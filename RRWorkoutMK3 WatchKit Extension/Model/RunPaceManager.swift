@@ -5,82 +5,65 @@
 //  Created by Daniel O'Leary on 12/8/20.
 //
 
-import Combine
 import CoreMotion
 
-class RunPaceManager: NSObject, ObservableObject {
+extension WorkoutController {
+	class RunPaceManager {
 
-	enum UnitOfSpeedMeasurement {
-		case kilometersPerHour
-		case milesPerHour
-	}
+		private let pedometer = CMPedometer()
+		private let now = Date()
 
-	@Published var currentRunningPace = "00:00"
-	@Published var unitOfMeasurement: UnitOfSpeedMeasurement = .milesPerHour
+		public func startMotionUpdates(_ unitOfMeasurement: UnitOfSpeedMeasurement, _ callback: @escaping (String) -> Void) {
+			if CMPedometer.isPaceAvailable() {
+				pedometer.startUpdates(from: now) { (data, error) in
+					// Get the current pace, if there isn't one set it as Zero
+					guard let pace = data?.averageActivePace else { return }
 
-	let pedometer = CMPedometer()
-	let now = Date()
-
-	func startMotionUpdates() {
-		if CMPedometer.isPaceAvailable() {
-			getOngoingAveragePace()
-		} else {
-			print("No Pedometer to start updating")
-		}
-	}
-
-	func stopMotionUpdates() {
-		if CMPedometer.isPaceAvailable() {
-			pedometer.stopUpdates()
-		} else {
-			print("No Pedometer to stop.")
-		}
-		// TODO: send final average pace to summary screen
-	}
-
-	func getOngoingAveragePace() {
-		pedometer.startUpdates(from: now) { (data, error) in
-			// Get the current pace, if there isn't one set it as Zero
-			guard let pace = data?.averageActivePace else { return }
-
-			// Update UI
-			DispatchQueue.main.async {
-				self.currentRunningPace = self.convert(pace: pace, to: self.unitOfMeasurement)
+					callback(self.convert(pace: pace, to: unitOfMeasurement))
+				}
+			} else {
+				print("No Pedometer to start updating")
 			}
 		}
-	}
 
-	func convert(pace: NSNumber, to speed: UnitOfSpeedMeasurement) -> String  {
-		/*
-		metersPerSecond is given from CoreMotion as an NSNumber. But...
-		the original pace value is given as "Seconds per Meter", not Meters per Second.
-		1 / value converts to Meters per Second
-		*/
-		var conversion: Double {
-			1 / pace.doubleValue
+		public func stopMotionUpdates() {
+			if CMPedometer.isPaceAvailable() {
+				pedometer.stopUpdates()
+			} else {
+				print("No Pedometer to stop.")
+			}
 		}
 
-		let metersPerSecond = Measurement(value: conversion, unit: UnitSpeed.metersPerSecond)
+		private func convert(pace: NSNumber, to speed: UnitOfSpeedMeasurement) -> String  {
+			/*
+			metersPerSecond is given from CoreMotion as an NSNumber. But...
+			the original pace value is given as "Seconds per Meter", not Meters per Second.
+			1 / value converts to Meters per Second
+			*/
+			var conversion: Double {
+				1 / pace.doubleValue
+			}
 
-		var paceValue: Double = 0
+			let metersPerSecond = Measurement(value: conversion, unit: UnitSpeed.metersPerSecond)
 
-		var minutes = 0
-		var seconds = 0
+			var paceValue: Double = 0
 
-		switch speed {
-			case .milesPerHour:
-				paceValue = 60 / metersPerSecond.converted(to: .milesPerHour).value
-			case .kilometersPerHour:
-				paceValue = 60 / metersPerSecond.converted(to: .kilometersPerHour).value
+			var minutes = 0
+			var seconds = 0
+
+			switch speed {
+				case .milesPerHour:
+					paceValue = 60 / metersPerSecond.converted(to: .milesPerHour).value
+				case .kilometersPerHour:
+					paceValue = 60 / metersPerSecond.converted(to: .kilometersPerHour).value
+			}
+
+			minutes = Int(paceValue)
+			seconds = Int(paceValue * 60) % 60
+
+			return "\(minutes)m:\(seconds)s"
 		}
-
-		minutes = Int(paceValue)
-		seconds = Int(paceValue * 60) % 60
-
-		return "\(minutes)m:\(seconds)s"
 	}
-
-
 }
 
 

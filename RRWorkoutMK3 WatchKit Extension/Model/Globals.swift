@@ -15,6 +15,13 @@ enum TabSelection {
 }
 
 
+public enum UnitOfSpeedMeasurement {
+	case kilometersPerHour
+	case milesPerHour
+}
+
+
+
 // Helper Class
 // Used to convert seconds of a run to readable hh:mm:ss
 struct TimeConvert {

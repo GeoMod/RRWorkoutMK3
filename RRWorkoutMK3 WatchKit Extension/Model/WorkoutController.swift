@@ -6,7 +6,7 @@
 //
 
 import Combine
-import CoreMotion
+//import CoreMotion
 import HealthKit
 
 
@@ -17,8 +17,9 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	@Published var distance: 		Double	= 0
 	@Published var heartrate: 		Double	= 0
 	@Published var elapsedSeconds: 	Int 	= 0
+	@Published var averagePace			 	= "00:00"
 
-	let paceManager = RunPaceManager()
+	private let paceManager = RunPaceManager()
 
 	/// - Tag: TimerSetup
 	// The cancellable holds the timer publisher.
@@ -32,7 +33,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 
 	var workoutRunning = false
 
-	func setUpTimer() {
+	private func setUpTimer() {
 		start = Date()
 		cancellable = Timer.publish(every: 0.001, tolerance: 0.001,on: .main, in: .default).autoconnect()
 			.sink{ [weak self] _ in
@@ -46,11 +47,6 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		let runningTime: Int = Int(-1 * (self.start.timeIntervalSinceNow))
 		return self.accumulatedTime + runningTime
 	}
-
-	func getPaceData() -> String {
-		return paceManager.currentRunningPace
-	}
-
 
 	func setupWorkoutSession() {
 		let typesToShare: Set = [HKQuantityType.workoutType()]
@@ -70,7 +66,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		}
 	}
 
-	func beginWorkout() {
+	private func beginWorkout() {
 		/* From Apple: "You must make this request in both the WatchKit extension
 		and in the companion iOS app, because watchOS will ask the user to give
 		authorization on the companion iPhone."
@@ -96,20 +92,17 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		session.startActivity(with: Date())
 
 		// Start the Pedometer
-		paceManager.startMotionUpdates()
+		paceManager.startMotionUpdates(.milesPerHour) { [weak self] (newPace) in
+			DispatchQueue.main.async {
+				self?.averagePace = newPace
+			}
+		}
 
 		builder.beginCollection(withStart: Date()) { (success, error) in
 			// the workout has started
 		}
 	}
 
-	func togglePause() {
-		if workoutRunning == true {
-			 pauseWorkout()
-		} else {
-			resumeWorkout()
-		}
-	}
 
 	func pauseWorkout() {
 		session.pause()
@@ -131,6 +124,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		session.end()
 		// Stop the timer
 		cancellable?.cancel()
+		accumulatedTime = 0
 		paceManager.stopMotionUpdates()
 	}
 

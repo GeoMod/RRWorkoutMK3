@@ -38,7 +38,7 @@ struct PauseStopResumeView: View {
 			})
 
 			Group {
-				// Workout is paused,
+				// Workout is paused
 				// Here is the option to resume or End
 				if workoutIsActive {
 					Button(action: {
@@ -59,9 +59,9 @@ struct PauseStopResumeView: View {
 		.sheet(isPresented: $isShowingSheet, onDismiss: {
 			endWorkoutResetToHome()
 		}, content: {
-			SummaryView(totalDistance: Text("\(workoutController.distance)"),
+			SummaryView(totalDistance: Text("\(workoutController.distance, specifier: "%.2f")"),
 						totalTime: Text(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds))),
-						averagePace: Text(workoutController.paceManager.currentRunningPace))
+						averagePace: Text(workoutController.averagePace), heartRate: Text("\(workoutController.heartrate, specifier: "%.0f")"))
 		})
 
 	}

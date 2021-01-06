@@ -13,6 +13,7 @@ struct SummaryView: View {
 	let totalDistance: Text
 	let totalTime: Text
 	let averagePace: Text
+	let heartRate: Text
 
 	var body: some View {
 		ScrollView {
@@ -25,6 +26,8 @@ struct SummaryView: View {
 					Label("\(totalTime.foregroundColor(.offWhite))", systemImage: "clock.fill")
 					Divider()
 					Label("\(totalDistance.foregroundColor(.offWhite))", systemImage: "figure.walk.circle.fill")
+					Divider()
+					Label("\(heartRate.foregroundColor(.offWhite))", systemImage: "heart.circle.fill")
 					Divider()
 					Label("\(averagePace.foregroundColor(.offWhite))", systemImage: "speedometer")
 				}
@@ -44,6 +47,6 @@ struct SummaryView: View {
 
 struct SummaryView_Previews: PreviewProvider {
     static var previews: some View {
-		SummaryView(totalDistance: Text("3.2mi"), totalTime: Text("32min"), averagePace: Text("09:28 /mi"))
+		SummaryView(totalDistance: Text("3.2 mi"), totalTime: Text("32 min"), averagePace: Text("09:28 /mi"), heartRate: Text("145 BPM"))
     }
 }
