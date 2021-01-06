@@ -14,7 +14,7 @@ struct WorkoutDetailView: View {
 
 	var body: some View {
 		ScrollView {
-			VStack(alignment: .leading, spacing: 1) {
+			VStack(alignment: .leading) {
 				Label {
 					Text("\(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds)))")
 				} icon: {
@@ -37,13 +37,13 @@ struct WorkoutDetailView: View {
 				}
 
 
-				Label { Text("\(workoutController.heartrate, specifier: "%.0f") BPM") }
+				Label { Text("\(workoutController.heartrate, specifier: "%.0f") bpm") }
 					icon: { Image(systemName: "heart.circle.fill")
 						.foregroundColor(.yellow)
 					}
 
 				Label {
-					Text("\(workoutController.activeCalories, specifier: "%.0f")")
+					Text("\(workoutController.activeCalories, specifier: "%.0f") cal")
 				} icon: {
 					Image(systemName: "bolt.horizontal.circle")
 						.foregroundColor(.yellow)
@@ -118,12 +118,12 @@ struct WorkoutDetailView_Previews: PreviewProvider {
 					Image(systemName: "speedometer")
 						.foregroundColor(.yellow)
 				}
-				Label { Text("\(workoutController.heartrate, specifier: "%.0f") BPM") }
+				Label { Text("\(workoutController.heartrate, specifier: "%.0f") bpm") }
 					icon: { Image(systemName: "heart.circle.fill")
 						.foregroundColor(.yellow)
 					}
 				Label {
-					Text("\(workoutController.activeCalories, specifier: "%.0f")")
+					Text("\(workoutController.activeCalories, specifier: "%.0f") cal")
 				} icon: {
 					Image(systemName: "bolt.horizontal.circle")
 						.foregroundColor(.yellow)

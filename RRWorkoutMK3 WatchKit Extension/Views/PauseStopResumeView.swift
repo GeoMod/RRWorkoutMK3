@@ -16,7 +16,6 @@ struct PauseStopResumeView: View {
 	@State private var isShowingSheet 	= false
 	@State private var workoutPaused 	= false
 
-
 	var body: some View {
 		VStack {
 			Button(action: {
@@ -44,6 +43,7 @@ struct PauseStopResumeView: View {
 					Button(action: {
 						workoutIsActive = false
 						isShowingSheet = true
+						workoutController.getAverageHeartRateFromWorkout(startTime: workoutController.start)
 					}, label: {
 						Image(systemName: "stop.circle")
 							.foregroundColor(.red)
@@ -61,11 +61,10 @@ struct PauseStopResumeView: View {
 		}, content: {
 			SummaryView(totalDistance: Text("\(workoutController.distance, specifier: "%.2f")"),
 						totalTime: Text(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds))),
-						averagePace: Text(workoutController.averagePace), heartRate: Text("\(workoutController.heartrate, specifier: "%.0f")"))
+						averagePace: Text(workoutController.averagePace), heartRate: Text("\(workoutController.avgHeartRate, specifier: "%.0f")"))
 		})
 
 	}
-
 
 	private func endWorkoutResetToHome() {
 		workoutController.endWorkout()

@@ -6,7 +6,6 @@
 //
 
 import Combine
-//import CoreMotion
 import HealthKit
 
 
@@ -16,8 +15,9 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	@Published var activeCalories: 	Double 	= 0
 	@Published var distance: 		Double	= 0
 	@Published var heartrate: 		Double	= 0
+	@Published var avgHeartRate: 	Double 	= 0
 	@Published var elapsedSeconds: 	Int 	= 0
-	@Published var averagePace			 	= "00:00"
+	@Published var averagePace = "00:00"
 
 	private let paceManager = RunPaceManager()
 
@@ -33,22 +33,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 
 	var workoutRunning = false
 
-	private func setUpTimer() {
-		start = Date()
-		cancellable = Timer.publish(every: 0.001, tolerance: 0.001,on: .main, in: .default).autoconnect()
-			.sink{ [weak self] _ in
-				guard let self = self else { return }
-				self.elapsedSeconds = self.incrementElapsedTime()
-			}
-	}
-
-	// Calculate the elapsed time.
-	func incrementElapsedTime() -> Int {
-		let runningTime: Int = Int(-1 * (self.start.timeIntervalSinceNow))
-		return self.accumulatedTime + runningTime
-	}
-
-	func setupWorkoutSession() {
+	public func setupWorkoutSession() {
 		let typesToShare: Set = [HKQuantityType.workoutType()]
 
 		let typesToRead: Set = [
@@ -67,7 +52,8 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	}
 
 	private func beginWorkout() {
-		/* From Apple: "You must make this request in both the WatchKit extension
+		/*
+		From Apple: "You must make this request in both the WatchKit extension
 		and in the companion iOS app, because watchOS will ask the user to give
 		authorization on the companion iPhone."
 		*/
@@ -103,8 +89,27 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		}
 	}
 
+	private func setUpTimer() {
+		start = Date()
+		cancellable = Timer.publish(every: 0.001, tolerance: 0.001,on: .main, in: .default).autoconnect()
+			.sink{ [weak self] _ in
+				guard let self = self else { return }
+				self.elapsedSeconds = self.incrementElapsedTime()
+			}
+	}
 
-	func pauseWorkout() {
+	// Calculate the elapsed time.
+	private func incrementElapsedTime() -> Int {
+		/*
+		The apparent redundancy in the use of `accumulatedTime` and elapsedTime is due to the need for
+		resuming the timer when the user pauses, then resumes a run.
+		Without this the timer will reset to 0 after a run is paused and resumed.
+		*/
+		let runningTime: Int = Int(-1 * (start.timeIntervalSinceNow))
+		return accumulatedTime + runningTime
+	}
+
+	public func pauseWorkout() {
 		session.pause()
 		// Stop the timer
 		cancellable?.cancel()
@@ -113,14 +118,14 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		workoutRunning = false
 	}
 
-	func resumeWorkout() {
+	public func resumeWorkout() {
 		session.resume()
 
 		setUpTimer()
 		workoutRunning = true
 	}
 
-	func endWorkout() {
+	public func endWorkout() {
 		session.end()
 		// Stop the timer
 		cancellable?.cancel()
@@ -128,8 +133,22 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		paceManager.stopMotionUpdates()
 	}
 
+	public func getAverageHeartRateFromWorkout(startTime: Date) {
+		#warning("Implement a new way of working out the start time and end time. Passing in the time is messy.")
+		guard let heartRate = HKQuantityType.quantityType(forIdentifier: .heartRate) else { return }
+		let predicate: NSPredicate? = HKQuery.predicateForSamples(withStart: startTime, end: Date(), options: HKQueryOptions.strictEndDate)
 
-	func resetWorkout() {
+		let query = HKStatisticsQuery(quantityType: heartRate, quantitySamplePredicate: predicate, options: .discreteAverage) { (statsQuery, results, error) in
+			DispatchQueue.main.async {
+				let quantity = results?.averageQuantity()
+				let averageBeatsPerMinute = quantity?.doubleValue(for: HKUnit.count().unitDivided(by: HKUnit.minute()))
+				self.avgHeartRate = averageBeatsPerMinute ?? 999
+			}
+		}
+		healthStore.execute(query)
+	}
+
+	private func resetWorkout() {
 		// Reset the published values.
 		DispatchQueue.main.async {
 			self.elapsedSeconds = 0
@@ -140,7 +159,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 	}
 
 	// MARK: Updating the UI
-	func updateLabels(withStatistics statistics: HKStatistics?) {
+	private func updateLabels(withStatistics statistics: HKStatistics?) {
 		guard let statistics = statistics else { return }
 
 		// Update user interface.
@@ -149,7 +168,8 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 			case HKQuantityType.quantityType(forIdentifier: .heartRate):
 				let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
 				let value = statistics.mostRecentQuantity()?.doubleValue(for: heartRateUnit) ?? 0
-				let roundedValue = Double(round(value))
+//				let roundedValue = Double(round(value))
+				let roundedValue = round(value)
 				self.heartrate = roundedValue
 			case HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned):
 				let energyUnit = HKUnit.kilocalorie()
@@ -195,6 +215,7 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 
 	func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
 		// required but unused.
+		// could be used to mark distance increments if you wanted to include audio alerts at mile/km intervals.
 	}
 
 
