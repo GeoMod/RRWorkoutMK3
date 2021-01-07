@@ -133,10 +133,9 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		paceManager.stopMotionUpdates()
 	}
 
-	public func getAverageHeartRateFromWorkout(startTime: Date) {
-		#warning("Implement a new way of working out the start time and end time. Passing in the time is messy.")
+	public func getAverageHeartRateFromWorkout() {
 		guard let heartRate = HKQuantityType.quantityType(forIdentifier: .heartRate) else { return }
-		let predicate: NSPredicate? = HKQuery.predicateForSamples(withStart: startTime, end: Date(), options: HKQueryOptions.strictEndDate)
+		let predicate: NSPredicate? = HKQuery.predicateForSamples(withStart: start, end: Date(), options: HKQueryOptions.strictEndDate)
 
 		let query = HKStatisticsQuery(quantityType: heartRate, quantitySamplePredicate: predicate, options: .discreteAverage) { (statsQuery, results, error) in
 			DispatchQueue.main.async {

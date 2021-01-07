@@ -43,7 +43,7 @@ struct PauseStopResumeView: View {
 					Button(action: {
 						workoutIsActive = false
 						isShowingSheet = true
-						workoutController.getAverageHeartRateFromWorkout(startTime: workoutController.start)
+						workoutController.getAverageHeartRateFromWorkout()
 					}, label: {
 						Image(systemName: "stop.circle")
 							.foregroundColor(.red)

@@ -19,14 +19,14 @@ struct WorkoutDetailView: View {
 					Text("\(TimeConvert.elapsedTimeString(elapsed: TimeConvert.secondsToHoursMinutesSeconds(seconds: workoutController.elapsedSeconds)))")
 				} icon: {
 					Image(systemName: "clock.fill")
-						.foregroundColor(.yellow)
+						.foregroundColor(.purple)
 				}
 
 				Label {
 					Text("\(workoutController.distance, specifier: "%.2f") mi")
 				} icon: {
 					Image(systemName: "figure.walk.circle.fill")
-						.foregroundColor(.yellow)
+						.foregroundColor(.green)
 				}
 
 				Label {
@@ -39,14 +39,14 @@ struct WorkoutDetailView: View {
 
 				Label { Text("\(workoutController.heartrate, specifier: "%.0f") bpm") }
 					icon: { Image(systemName: "heart.circle.fill")
-						.foregroundColor(.yellow)
+						.foregroundColor(.red)
 					}
 
 				Label {
 					Text("\(workoutController.activeCalories, specifier: "%.0f") cal")
 				} icon: {
 					Image(systemName: "bolt.horizontal.circle")
-						.foregroundColor(.yellow)
+						.foregroundColor(.orange)
 				}
 
 				StartButtonView
@@ -103,13 +103,13 @@ struct WorkoutDetailView_Previews: PreviewProvider {
 					Text("0:23:02")
 				} icon: {
 					Image(systemName: "clock.fill")
-						.foregroundColor(.yellow)
+						.foregroundColor(.purple)
 				}
 				Label {
 					Text("\(workoutController.distance, specifier: "%.2f") mi")
 				} icon: {
 					Image(systemName: "figure.walk.circle.fill")
-						.foregroundColor(.yellow)
+						.foregroundColor(.green)
 				}
 
 				Label {
@@ -120,13 +120,13 @@ struct WorkoutDetailView_Previews: PreviewProvider {
 				}
 				Label { Text("\(workoutController.heartrate, specifier: "%.0f") bpm") }
 					icon: { Image(systemName: "heart.circle.fill")
-						.foregroundColor(.yellow)
+						.foregroundColor(.red)
 					}
 				Label {
 					Text("\(workoutController.activeCalories, specifier: "%.0f") cal")
 				} icon: {
 					Image(systemName: "bolt.horizontal.circle")
-						.foregroundColor(.yellow)
+						.foregroundColor(.orange)
 				}
 			}
 			.foregroundColor(.white)
