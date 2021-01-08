@@ -229,7 +229,4 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 		// no errors handled
 	}
 
-
-
-
 }

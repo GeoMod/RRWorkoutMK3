@@ -38,7 +38,7 @@ extension WorkoutController {
 			/*
 			metersPerSecond is given from CoreMotion as an NSNumber. But...
 			the original pace value is given as "Seconds per Meter", not Meters per Second.
-			1 / value converts to Meters per Second
+			Mathematically (1 / pace) converts to Meters per Second
 			*/
 			var conversion: Double {
 				1 / pace.doubleValue
@@ -65,34 +65,3 @@ extension WorkoutController {
 		}
 	}
 }
-
-
-//class FromWeb {
-//
-//	var pace: Double = 0
-//	var distance: Double = 0
-//	var timeElapsed: Double = 0
-//
-//	func paceString(title: String, pace: Double) -> String{
-//			var minPerMile = 0.0
-//			let factor = 26.8224 //conversion factor
-//			if pace != 0 {
-//				minPerMile = factor / pace
-//			}
-//			let minutes = Int(minPerMile)
-//			let seconds = Int(minPerMile * 60) % 60
-//			return String(format: "%@: %02.2f m/s \n\t\t %02i:%02i min/mi",title,pace,minutes,seconds)
-//		}
-//
-//	func computedAvgPace() -> Double {
-//
-//			pace = distance / timeElapsed
-//			return pace
-//
-//	}
-//
-//	func miles(meters:Double)-> Double{
-//			let mile = 0.000621371192
-//			return meters * mile
-//		}
-//}

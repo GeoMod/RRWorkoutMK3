@@ -22,8 +22,7 @@ public enum UnitOfSpeedMeasurement {
 
 
 
-// Helper Class
-// Used to convert seconds of a run to readable hh:mm:ss
+// Helper used to convert seconds of a run to readable hh:mm:ss
 struct TimeConvert {
 	static func secondsToHoursMinutesSeconds (seconds: Int) -> (Int, Int, Int) {
 		(seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
