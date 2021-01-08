@@ -23,9 +23,9 @@ final class WorkoutController: NSObject, ObservableObject, HKWorkoutSessionDeleg
 
 	/// - Tag: TimerSetup
 	// The cancellable holds the timer publisher.
-	var start: Date = Date()
+	var accumulatedTime = 0
 	var cancellable: Cancellable?
-	var accumulatedTime: Int = 0
+	var start = Date()
 
 	let healthStore = HKHealthStore()
 	var session: HKWorkoutSession!
