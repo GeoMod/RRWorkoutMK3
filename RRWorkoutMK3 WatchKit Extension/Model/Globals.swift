@@ -7,13 +7,12 @@
 
 import Foundation
 
-enum TabSelection {
+public enum TabSelection {
 	case home
 	case activeRun
 	case pausedRun
 	case runSummary
 }
-
 
 public enum UnitOfSpeedMeasurement {
 	case kilometersPerHour
